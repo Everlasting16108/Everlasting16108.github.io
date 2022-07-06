@@ -736,21 +736,21 @@
 <td>001</td>
 <td>admin</td>
 <td>admin</td>
-<td><a href="mailto:&#x31;&#50;&#51;&#52;&#53;&#54;&#55;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#x6d;">&#x31;&#50;&#51;&#52;&#53;&#54;&#55;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#x6d;</a></td>
+<td><a href="mailto:&#49;&#x32;&#x33;&#x34;&#53;&#x36;&#55;&#64;&#x71;&#113;&#46;&#x63;&#111;&#109;">&#49;&#x32;&#x33;&#x34;&#53;&#x36;&#55;&#64;&#x71;&#113;&#46;&#x63;&#111;&#109;</a></td>
 </tr>
 <tr>
 <td>2</td>
 <td>002</td>
 <td>user</td>
 <td>123456</td>
-<td><a href="mailto:&#x39;&#x38;&#55;&#x36;&#53;&#52;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#x39;&#x38;&#55;&#x36;&#53;&#52;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;</a></td>
+<td><a href="mailto:&#57;&#56;&#55;&#54;&#53;&#52;&#64;&#113;&#113;&#46;&#99;&#111;&#x6d;">&#57;&#56;&#55;&#54;&#53;&#52;&#64;&#113;&#113;&#46;&#99;&#111;&#x6d;</a></td>
 </tr>
 <tr>
 <td>3</td>
 <td>003</td>
 <td>bianchengbang</td>
 <td>qwertyuiop</td>
-<td><a href="mailto:&#98;&#105;&#x61;&#x6e;&#x63;&#104;&#101;&#110;&#103;&#x62;&#97;&#x6e;&#x67;&#64;&#115;&#105;&#x6e;&#97;&#46;&#99;&#x6f;&#x6d;">&#98;&#105;&#x61;&#x6e;&#x63;&#104;&#101;&#110;&#103;&#x62;&#97;&#x6e;&#x67;&#64;&#115;&#105;&#x6e;&#97;&#46;&#99;&#x6f;&#x6d;</a></td>
+<td><a href="mailto:&#98;&#x69;&#x61;&#x6e;&#x63;&#104;&#101;&#110;&#103;&#x62;&#x61;&#x6e;&#103;&#64;&#x73;&#x69;&#110;&#97;&#x2e;&#x63;&#x6f;&#109;">&#98;&#x69;&#x61;&#x6e;&#x63;&#104;&#101;&#110;&#103;&#x62;&#x61;&#x6e;&#103;&#64;&#x73;&#x69;&#110;&#97;&#x2e;&#x63;&#x6f;&#109;</a></td>
 </tr>
 </tbody></table>
 <p>根据数据库 user 表，创建相应的实体类 User，代码如下。</p>
@@ -1127,7 +1127,7 @@
         path = decodeURI(window.location.pathname);
       }
       var valine = new Valine();
-      valine.init(Object.assign({"js":"https://fastly.jsdelivr.net/gh/XuxuGood/simple-blog-cdn@main/js/Valine.min.js","appId":"htefetTtbicBiBu8faaej9CA-gzGzoHsz","appKey":"RDT0xAMsGjfufSYeaILUKsYi","placeholder":"欢迎留言评论哟！","requiredFields":null,"enableQQ":true,"recordIP":true,"avatar":"robohash","pageSize":15,"lang":"zh-cn","highlight":true,"mathJax":false,"tagMeta":["博主","小伙伴","访客"],"metaPlaceholder":{"nick":"昵称/QQ号","mail":"邮箱（完全保密）","link":"网址(https://)"},"master":["6783037F2DF30EAB99F9FC256157D875","144324e5d02b3061c44ffbd1cc03a4d5"],"friends":["6783037F2DF30EAB99F9FC256157D875","3ca7133c117fa9a5fe2dba3813925efc"]}, {
+      valine.init(Object.assign({"js":"https://fastly.jsdelivr.net/gh/XuxuGood/simple-blog-cdn@main/js/Valine.min.js","appId":"htefetTtbicBiBu8faaej9CA-gzGzoHsz","appKey":"RDT0xAMsGjfufSYeaILUKsYi","placeholder":"欢迎留言评论哟！","requiredFields":["nick","mail"],"enableQQ":true,"recordIP":true,"avatar":"robohash","pageSize":15,"lang":"zh-cn","highlight":true,"mathJax":false,"tagMeta":["博主","小伙伴","访客"],"metaPlaceholder":{"nick":"昵称/QQ号","mail":"邮箱（完全保密）","link":"网址(https://)"},"master":["6783037F2DF30EAB99F9FC256157D875","144324e5d02b3061c44ffbd1cc03a4d5"],"friends":["6783037F2DF30EAB99F9FC256157D875","3ca7133c117fa9a5fe2dba3813925efc"]}, {
         el: '#valine_container',
         path: path,
         placeholder: placeholder,
