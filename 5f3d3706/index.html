@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>SpringBoot集成文件 - ZQ的博客</title>
+
+  
+    <meta name="description" content="SpringBoot集成文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot集成文件">
+<meta property="og:url" content="https://blog.forever520.top/5f3d3706/index.html">
+<meta property="og:site_name" content="ZQ的博客">
+<meta property="og:description" content="SpringBoot集成文件">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-27T14:21:14.000Z">
+<meta property="article:modified_time" content="2023-11-07T13:41:06.445Z">
+<meta property="article:author" content="Gentle Conspiracy">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="文件导出">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="学习,SpringBoot,文件导出">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/hls.js@latest"></script>
+    
+      <script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/flv.js@latest"></script>
+    
+      <link rel="shortcut icon" type="image/x-icon" href="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" />
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures/imgs/kancss.css" >
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/my.css" >
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/ag.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/qiehuan6.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/tiao3.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/myconsole.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/mydebug.js"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ZQ的博客</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/favorites/">收藏</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">SpringBoot集成文件</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E5%87%86%E5%A4%87"><span class="toc-text">知识准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFitext"><span class="toc-text">什么是itext</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#itext%E7%9A%84%E5%8E%86%E5%8F%B2%E7%89%88%E6%9C%AC%E5%92%8CLicense%E9%97%AE%E9%A2%98"><span class="toc-text">itext的历史版本和License问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E7%9A%84itextpdf%E5%AF%BC%E5%87%BA%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-text">标准的itextpdf导出的步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%A1%88%E4%BE%8B"><span class="toc-text">实现案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Pom%E4%BE%9D%E8%B5%96"><span class="toc-text">Pom依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%87%BAPDF"><span class="toc-text">导出PDF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E9%A1%B5%E7%9C%89%E9%A1%B5%E8%84%9A%E5%92%8C%E6%B0%B4%E5%8D%B0"><span class="toc-text">添加页眉页脚和水印</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E4%B8%80%E6%AD%A5%E7%90%86%E8%A7%A3"><span class="toc-text">进一步理解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%87%E5%88%B0license%E9%97%AE%E9%A2%98%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="toc-text">遇到license问题怎么办</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BD%95%E6%B7%BB%E5%8A%A0%E9%A1%B5%E7%9C%89%E9%A1%B5%E8%84%9A%E5%92%8C%E6%B0%B4%E5%8D%B0%E6%98%AF%E9%80%9A%E8%BF%87PdfPageEvent%E6%9D%A5%E5%AE%8C%E6%88%90"><span class="toc-text">为何添加页眉页脚和水印是通过PdfPageEvent来完成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E6%BA%90%E7%A0%81"><span class="toc-text">示例源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/SpringBoot/">SpringBoot</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/SpringBoot/%E6%96%87%E4%BB%B6%E5%AF%BC%E5%87%BA/">文件导出</a></div><div id="post-meta">
+    <span>发布于&nbsp;<time datetime="2022-07-27T14:21:14.000Z">2022-07-27</time></span>
+    
+    <span>更新于&nbsp;<time datetime="2023-11-07T13:41:06.445Z">2023-11-07</time></span>
+    </div></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>SpringBoot集成文件</span></h1>
+<p>SpringBoot集成文件</p>
+<span id="more"></span>
+
+<h1 id="SpringBoot集成文件"><a href="#SpringBoot集成文件" class="headerlink" title="SpringBoot集成文件"></a>SpringBoot集成文件</h1><blockquote>
+<p>除了处理word, excel等文件外，最为常见的就是PDF的导出了。在java技术栈中，PDF创建和操作最为常用的itext了，但是使用itext一定要了解其版本历史和License问题，在早前版本使用的是MPL和LGPL双许可协议，在5.x以上版本中使用的是AGPLv3(这个协议意味着，只有个人用途和开源的项目才能使用itext这个库，否则是需要收费的)。本文主要介绍通过SpringBoot集成itextpdf实现PDF导出功能。</p>
+</blockquote>
+<h2 id="知识准备"><a href="#知识准备" class="headerlink" title="知识准备"></a>知识准备</h2><blockquote>
+<p>需要了解itext，以及itext历史版本变迁，以及license的问题。</p>
+</blockquote>
+<h3 id="什么是itext"><a href="#什么是itext" class="headerlink" title="什么是itext"></a>什么是itext</h3><blockquote>
+<p>来源于百度百科：iText是著名的开放源码的站点sourceforge一个项目(由Bruno Lowagie编写)，是一个用Java和.NET语言写的库，用来创建和修改PDF文件。通过iText不仅可以生成PDF或rtf的文档，而且可以将XML、Html文件转化为PDF文件。iText的安装非常方便，下载iText.jar文件后，只需要在系统的CLASSPATH中加入iText.jar的路径，在程序中就可以使用iText类库了。</p>
+</blockquote>
+<p>iText提供除了基本的创建、修改PDF文件外的其他高级的PDF特性，例如基于PKI的签名，40位和128位加密，颜色校正，带标签的PDF，PDF表单(AcroForms)，PDF&#x2F;X,通过ICC配置文件和条形码进行颜色管理。这些特性被一些产品和服务中使用，包括Eclipse BIRT，Jasper Reports，JBoss Seam，Windward Reports和pdftk。</p>
+<p>一般情况下，iText使用在有以下一个要求的项目中：</p>
+<ul>
+<li>内容无法提前利用：取决于用户的输入或实时的数据库信息。</li>
+<li>由于内容，页面过多，PDF文档不能手动生成。</li>
+<li>文档需在无人参与，批处理模式下自动创建。</li>
+<li>内容被定制或个性化；例如，终端客户的名字需要标记在大量的页面上。</li>
+</ul>
+<h3 id="itext的历史版本和License问题"><a href="#itext的历史版本和License问题" class="headerlink" title="itext的历史版本和License问题"></a>itext的历史版本和License问题</h3><blockquote>
+<p>使用itext一定要了解其版本历史，和License问题，在早前版本使用的是<strong>MPL和LGPL双许可协议</strong>，在5.x以上版本中使用的是<strong>AGPLv3</strong>(这个协议意味着，只有个人用途和开源的项目才能使用itext这个库，否则是需要收费的)</p>
+</blockquote>
+<ul>
+<li><p><strong>iText 0.x-2.x&#x2F;iTextSharp 3.x-4.x</strong></p>
+</li>
+<li><ul>
+<li>更新时间是2000-2009<ul>
+<li>使用的是<strong>MPL和LGPL双许可协议</strong></li>
+<li>最近的更新是2009年，版本号是<strong>iText 2.1.7</strong>&#x2F;iTextSharp 4.1.6.0</li>
+<li>此时引入包的GAV版本如下：</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.lowagie<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>itext<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>**iText 5.x和iTextSharp 5.x**
+
+- - **只有个人用途和开源的项目才能使用itext这个库，否则是需要收费的**
+    - 更新时间是2009-2016, 公司化运作，并标准化和提高性能
+    - 开始使用**AGPLv3协议**
+    - iTextSharp被设计成iText库的.NET版本，并且与iText版本号同步，iText 5.0.0和iTextSharp5.0.0同时发布
+    - 新功能不在这里面增加，但是官方会修复重要的bug
+    - 此时引入包的GAV版本如下：
+</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.itextpdf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>itextpdf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.13.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>**iText 7.x**
+
+- - 更新时间是2016到现在
+    - AGPLv3协议
+    - 完全重写，重点关注可扩展性和模块化
+    - 不适用iTextSharp这个名称，都统称为iText,有Java和.Net版本
+    - JDK 1.7+
+    - 此时引入包的GAV版本如下：
+</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.itextpdf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>itext7-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>7.2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>注：iText变化后，GitHub上有团队基于4.x版本（MPL和LGPL双许可协议）fork了一个分支成为OpenPDF，并继续维护该项目。
+</code></pre>
+<ul>
+<li><h3 id="标准的itextpdf导出的步骤"><a href="#标准的itextpdf导出的步骤" class="headerlink" title="标准的itextpdf导出的步骤"></a>标准的itextpdf导出的步骤</h3></li>
+<li><p>itextpdf导出pdf主要包含如下几步：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Document <span class="title function_">generateItextPdfDocument</span><span class="params">(OutputStream os)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="comment">// 1. 创建文档</span></span><br><span class="line">    <span class="type">Document</span> <span class="variable">document</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Document</span>(PageSize.A4);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 绑定输出流（通过pdfwriter)</span></span><br><span class="line">    PdfWriter.getInstance(document, os);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 打开文档</span></span><br><span class="line">    document.open();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 往文档中添加内容</span></span><br><span class="line">    document.add(xxx);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 关闭文档</span></span><br><span class="line">    document.close();</span><br><span class="line">    <span class="keyword">return</span> document;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>document中添加的Element有哪些呢？</li>
+</ul>
+<p>需要说明下如下概念之前的差别：</p>
+<ul>
+<li><strong>Chunk</strong>：文档的文本的最小块单位</li>
+<li><strong>Phrase</strong>：一系列以特定间距（两行之间的距离）作为参数的块</li>
+<li><strong>Paragraph</strong>：段落是一系列块和（或）短句。同短句一样，段落有确定的间距。用户还可以指定缩排；在边和（或）右边保留一定空白，段落可以左对齐、右对齐和居中对齐。添加到文档中的每一个段落将自动另起一行。</li>
+</ul>
+<p>（其它从字面上就可以看出，所以这里具体就不做解释了）</p>
+<h2 id="实现案例"><a href="#实现案例" class="headerlink" title="实现案例"></a>实现案例</h2><blockquote>
+<p>这里展示SpringBoot集成itext5导出PDF的例子。</p>
+</blockquote>
+<h3 id="Pom依赖"><a href="#Pom依赖" class="headerlink" title="Pom依赖"></a>Pom依赖</h3><p>引入poi的依赖包</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.itextpdf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>itextpdf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.13.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.itextpdf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>itext-asian<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="导出PDF"><a href="#导出PDF" class="headerlink" title="导出PDF"></a>导出PDF</h3><p>UserController中导出的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> tech.pdai.springboot.file.word.poi.controller;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.OutputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.ApiOperation;</span><br><span class="line"><span class="keyword">import</span> org.apache.poi.xwpf.usermodel.XWPFDocument;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"><span class="keyword">import</span> tech.pdai.springboot.file.word.poi.service.IUserService;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> pdai</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> IUserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;Download Word&quot;)</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/word/download&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">download</span><span class="params">(HttpServletResponse response)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">XWPFDocument</span> <span class="variable">document</span> <span class="operator">=</span> userService.generateWordXWPFDocument();</span><br><span class="line">            response.reset();</span><br><span class="line">            response.setContentType(<span class="string">&quot;application/vnd.ms-excel&quot;</span>);</span><br><span class="line">            response.setHeader(<span class="string">&quot;Content-disposition&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;attachment;filename=user_world_&quot;</span> + System.currentTimeMillis() + <span class="string">&quot;.docx&quot;</span>);</span><br><span class="line">            <span class="type">OutputStream</span> <span class="variable">os</span> <span class="operator">=</span> response.getOutputStream();</span><br><span class="line">            document.write(os);</span><br><span class="line">            os.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>UserServiceImple中导出PDF方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Document <span class="title function_">generateItextPdfDocument</span><span class="params">(OutputStream os)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="comment">// document</span></span><br><span class="line">    <span class="type">Document</span> <span class="variable">document</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Document</span>(PageSize.A4);</span><br><span class="line">    PdfWriter.getInstance(document, os);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// open</span></span><br><span class="line">    document.open();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add content - pdf meta information</span></span><br><span class="line">    document.addAuthor(<span class="string">&quot;pdai&quot;</span>);</span><br><span class="line">    document.addCreationDate();</span><br><span class="line">    document.addTitle(<span class="string">&quot;pdai-pdf-itextpdf&quot;</span>);</span><br><span class="line">    document.addKeywords(<span class="string">&quot;pdf-pdai-keyword&quot;</span>);</span><br><span class="line">    document.addCreator(<span class="string">&quot;pdai&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add content -  page content</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Title</span></span><br><span class="line">    document.add(createTitle(<span class="string">&quot;Java 全栈知识体系&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Chapter 1</span></span><br><span class="line">    document.add(createChapterH1(<span class="string">&quot;1. 知识准备&quot;</span>));</span><br><span class="line">    document.add(createChapterH2(<span class="string">&quot;1.1 什么是POI&quot;</span>));</span><br><span class="line">    document.add(createParagraph(<span class="string">&quot;Apache POI 是创建和维护操作各种符合Office Open XML（OOXML）标准和微软的OLE 2复合文档格式（OLE2）的Java API。用它可以使用Java读取和创建,修改MS Excel文件.而且,还可以使用Java读取和创建MS Word和MSPowerPoint文件。更多请参考[官方文档](https://poi.apache.org/index.html)&quot;</span>));</span><br><span class="line">    document.add(createChapterH2(<span class="string">&quot;1.2 POI中基础概念&quot;</span>));</span><br><span class="line">    document.add(createParagraph(<span class="string">&quot;生成xls和xlsx有什么区别？POI对Excel中的对象的封装对应关系？&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Chapter 2</span></span><br><span class="line">    document.add(createChapterH1(<span class="string">&quot;2. 实现案例&quot;</span>));</span><br><span class="line">    document.add(createChapterH2(<span class="string">&quot;2.1 用户列表示例&quot;</span>));</span><br><span class="line">    document.add(createParagraph(<span class="string">&quot;以导出用户列表为例&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 表格</span></span><br><span class="line">    List&lt;User&gt; userList = getUserList();</span><br><span class="line">    <span class="type">PdfPTable</span> <span class="variable">table</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PdfPTable</span>(<span class="keyword">new</span> <span class="title class_">float</span>[]&#123;<span class="number">20</span>, <span class="number">40</span>, <span class="number">50</span>, <span class="number">40</span>, <span class="number">40</span>&#125;);</span><br><span class="line">    table.setTotalWidth(<span class="number">500</span>);</span><br><span class="line">    table.setLockedWidth(<span class="literal">true</span>);</span><br><span class="line">    table.setHorizontalAlignment(Element.ALIGN_CENTER);</span><br><span class="line">    table.getDefaultCell().setBorder(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; userList.size(); i++) &#123;</span><br><span class="line">        table.addCell(createCell(userList.get(i).getId() + <span class="string">&quot;&quot;</span>));</span><br><span class="line">        table.addCell(createCell(userList.get(i).getUserName()));</span><br><span class="line">        table.addCell(createCell(userList.get(i).getEmail()));</span><br><span class="line">        table.addCell(createCell(userList.get(i).getPhoneNumber() + <span class="string">&quot;&quot;</span>));</span><br><span class="line">        table.addCell(createCell(userList.get(i).getDescription()));</span><br><span class="line">    &#125;</span><br><span class="line">    document.add(table);</span><br><span class="line"></span><br><span class="line">    document.add(createChapterH2(<span class="string">&quot;2.2 图片导出示例&quot;</span>));</span><br><span class="line">    document.add(createParagraph(<span class="string">&quot;以导出图片为例&quot;</span>));</span><br><span class="line">    <span class="comment">// 图片</span></span><br><span class="line">    <span class="type">Resource</span> <span class="variable">resource</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPathResource</span>(<span class="string">&quot;pdai-guli.png&quot;</span>);</span><br><span class="line">    <span class="type">Image</span> <span class="variable">image</span> <span class="operator">=</span> Image.getInstance(resource.getURL());</span><br><span class="line">    <span class="comment">// Image image = Image.getInstance(&quot;/Users/pdai/pdai/www/tech-pdai-spring-demos/481-springboot-demo-file-pdf-itextpdf/src/main/resources/pdai-guli.png&quot;);</span></span><br><span class="line">    image.setAlignment(Element.ALIGN_CENTER);</span><br><span class="line">    image.scalePercent(<span class="number">60</span>); <span class="comment">// 缩放</span></span><br><span class="line">    document.add(image);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// close</span></span><br><span class="line">    document.close();</span><br><span class="line">    <span class="keyword">return</span> document;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> List&lt;User&gt; <span class="title function_">getUserList</span><span class="params">()</span> &#123;</span><br><span class="line">    List&lt;User&gt; userList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">        userList.add(User.builder()</span><br><span class="line">                .id(Long.parseLong(i + <span class="string">&quot;&quot;</span>)).userName(<span class="string">&quot;pdai&quot;</span> + i).email(<span class="string">&quot;pdai@pdai.tech&quot;</span> + i).phoneNumber(<span class="number">121231231231L</span>)</span><br><span class="line">                .description(<span class="string">&quot;hello world&quot;</span> + i)</span><br><span class="line">                .build());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> userList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在实现时可以将如下创建文档内容的方法封装到Util工具类中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Paragraph <span class="title function_">createTitle</span><span class="params">(String content)</span> <span class="keyword">throws</span> IOException, DocumentException &#123;</span><br><span class="line">    <span class="type">Font</span> <span class="variable">font</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Font</span>(getBaseFont(), <span class="number">24</span>, Font.BOLD);</span><br><span class="line">    <span class="type">Paragraph</span> <span class="variable">paragraph</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Paragraph</span>(content, font);</span><br><span class="line">    paragraph.setAlignment(Element.ALIGN_CENTER);</span><br><span class="line">    <span class="keyword">return</span> paragraph;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Paragraph <span class="title function_">createChapterH1</span><span class="params">(String content)</span> <span class="keyword">throws</span> IOException, DocumentException &#123;</span><br><span class="line">    <span class="type">Font</span> <span class="variable">font</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Font</span>(getBaseFont(), <span class="number">22</span>, Font.BOLD);</span><br><span class="line">    <span class="type">Paragraph</span> <span class="variable">paragraph</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Paragraph</span>(content, font);</span><br><span class="line">    paragraph.setAlignment(Element.ALIGN_LEFT);</span><br><span class="line">    <span class="keyword">return</span> paragraph;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Paragraph <span class="title function_">createChapterH2</span><span class="params">(String content)</span> <span class="keyword">throws</span> IOException, DocumentException &#123;</span><br><span class="line">    <span class="type">Font</span> <span class="variable">font</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Font</span>(getBaseFont(), <span class="number">18</span>, Font.BOLD);</span><br><span class="line">    <span class="type">Paragraph</span> <span class="variable">paragraph</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Paragraph</span>(content, font);</span><br><span class="line">    paragraph.setAlignment(Element.ALIGN_LEFT);</span><br><span class="line">    <span class="keyword">return</span> paragraph;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Paragraph <span class="title function_">createParagraph</span><span class="params">(String content)</span> <span class="keyword">throws</span> IOException, DocumentException &#123;</span><br><span class="line">    <span class="type">Font</span> <span class="variable">font</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Font</span>(getBaseFont(), <span class="number">12</span>, Font.NORMAL);</span><br><span class="line">    <span class="type">Paragraph</span> <span class="variable">paragraph</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Paragraph</span>(content, font);</span><br><span class="line">    paragraph.setAlignment(Element.ALIGN_LEFT);</span><br><span class="line">    paragraph.setIndentationLeft(<span class="number">12</span>); <span class="comment">//设置左缩进</span></span><br><span class="line">    paragraph.setIndentationRight(<span class="number">12</span>); <span class="comment">//设置右缩进</span></span><br><span class="line">    paragraph.setFirstLineIndent(<span class="number">24</span>); <span class="comment">//设置首行缩进</span></span><br><span class="line">    paragraph.setLeading(<span class="number">20f</span>); <span class="comment">//行间距</span></span><br><span class="line">    paragraph.setSpacingBefore(<span class="number">5f</span>); <span class="comment">//设置段落上空白</span></span><br><span class="line">    paragraph.setSpacingAfter(<span class="number">10f</span>); <span class="comment">//设置段落下空白</span></span><br><span class="line">    <span class="keyword">return</span> paragraph;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> PdfPCell <span class="title function_">createCell</span><span class="params">(String content)</span> <span class="keyword">throws</span> IOException, DocumentException &#123;</span><br><span class="line">    <span class="type">PdfPCell</span> <span class="variable">cell</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PdfPCell</span>();</span><br><span class="line">    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);</span><br><span class="line">    cell.setHorizontalAlignment(Element.ALIGN_CENTER);</span><br><span class="line">    <span class="type">Font</span> <span class="variable">font</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Font</span>(getBaseFont(), <span class="number">12</span>, Font.NORMAL);</span><br><span class="line">    cell.setPhrase(<span class="keyword">new</span> <span class="title class_">Phrase</span>(content, font));</span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> BaseFont <span class="title function_">getBaseFont</span><span class="params">()</span> <span class="keyword">throws</span> IOException, DocumentException &#123;</span><br><span class="line">    <span class="keyword">return</span> BaseFont.createFont(<span class="string">&quot;STSong-Light&quot;</span>, <span class="string">&quot;UniGB-UCS2-H&quot;</span>, BaseFont.NOT_EMBEDDED);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>导出后的PDF</p>
+<h3 id="添加页眉页脚和水印"><a href="#添加页眉页脚和水印" class="headerlink" title="添加页眉页脚和水印"></a>添加页眉页脚和水印</h3><blockquote>
+<p>在itextpdf 5.x 中可以利用PdfPageEvent来完成页眉页脚和水印。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> tech.pdai.springboot.file.pdf.itextpdf.pdf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.BaseColor;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.Document;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.Element;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.Phrase;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.pdf.BaseFont;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.pdf.ColumnText;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.pdf.PdfContentByte;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.pdf.PdfGState;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.pdf.PdfPageEventHelper;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.pdf.PdfTemplate;</span><br><span class="line"><span class="keyword">import</span> com.itextpdf.text.pdf.PdfWriter;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> pdai</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyHeaderFooterPageEventHelper</span> <span class="keyword">extends</span> <span class="title class_">PdfPageEventHelper</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String headLeftTitle;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String headRightTitle;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String footerLeft;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String waterMark;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> PdfTemplate total;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MyHeaderFooterPageEventHelper</span><span class="params">(String headLeftTitle, String headRightTitle, String footerLeft, String waterMark)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.headLeftTitle = headLeftTitle;</span><br><span class="line">        <span class="built_in">this</span>.headRightTitle = headRightTitle;</span><br><span class="line">        <span class="built_in">this</span>.footerLeft = footerLeft;</span><br><span class="line">        <span class="built_in">this</span>.waterMark = waterMark;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onOpenDocument</span><span class="params">(PdfWriter writer, Document document)</span> &#123;</span><br><span class="line">        total = writer.getDirectContent().createTemplate(<span class="number">30</span>, <span class="number">16</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onEndPage</span><span class="params">(PdfWriter writer, Document document)</span> &#123;</span><br><span class="line">        <span class="type">BaseFont</span> <span class="variable">bf</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            bf = BaseFont.createFont(<span class="string">&quot;STSong-Light&quot;</span>, <span class="string">&quot;UniGB-UCS2-H&quot;</span>, BaseFont.NOT_EMBEDDED);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// page header and footer</span></span><br><span class="line">        addPageHeaderAndFooter(writer, document, bf);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// watermark</span></span><br><span class="line">        <span class="keyword">if</span> (waterMark!=<span class="literal">null</span>) &#123;</span><br><span class="line">            addWaterMark(writer, document, bf);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">addPageHeaderAndFooter</span><span class="params">(PdfWriter writer, Document document, BaseFont bf)</span> &#123;</span><br><span class="line">        <span class="type">PdfContentByte</span> <span class="variable">cb</span> <span class="operator">=</span> writer.getDirectContent();</span><br><span class="line">        cb.saveState();</span><br><span class="line"></span><br><span class="line">        cb.beginText();</span><br><span class="line"></span><br><span class="line">        cb.setColorFill(BaseColor.GRAY);</span><br><span class="line">        cb.setFontAndSize(bf, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// header</span></span><br><span class="line">        <span class="type">float</span> <span class="variable">x</span> <span class="operator">=</span> document.top(-<span class="number">10</span>);</span><br><span class="line">        cb.showTextAligned(PdfContentByte.ALIGN_LEFT,</span><br><span class="line">                headLeftTitle,</span><br><span class="line">                document.left(), x, <span class="number">0</span>);</span><br><span class="line">        cb.showTextAligned(PdfContentByte.ALIGN_RIGHT,</span><br><span class="line">                headRightTitle,</span><br><span class="line">                document.right(), x, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// footer</span></span><br><span class="line">        <span class="type">float</span> <span class="variable">y</span> <span class="operator">=</span> document.bottom(-<span class="number">10</span>);</span><br><span class="line">        cb.showTextAligned(PdfContentByte.ALIGN_LEFT,</span><br><span class="line">                footerLeft,</span><br><span class="line">                document.left(), y, <span class="number">0</span>);</span><br><span class="line">        cb.showTextAligned(PdfContentByte.ALIGN_CENTER,</span><br><span class="line">                String.format(<span class="string">&quot;- %d -&quot;</span>, writer.getPageNumber()),</span><br><span class="line">                (document.right() + document.left()) / <span class="number">2</span>,</span><br><span class="line">                y, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        cb.endText();</span><br><span class="line"></span><br><span class="line">        cb.restoreState();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">addWaterMark</span><span class="params">(PdfWriter writer, Document document, BaseFont bf)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; <span class="number">7</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; <span class="number">10</span>; j++) &#123;</span><br><span class="line">                <span class="type">PdfContentByte</span> <span class="variable">cb</span> <span class="operator">=</span> writer.getDirectContent();</span><br><span class="line">                cb.saveState();</span><br><span class="line">                cb.beginText();</span><br><span class="line">                cb.setColorFill(BaseColor.GRAY);</span><br><span class="line">                <span class="type">PdfGState</span> <span class="variable">gs</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PdfGState</span>();</span><br><span class="line">                gs.setFillOpacity(<span class="number">0.1f</span>);</span><br><span class="line">                cb.setGState(gs);</span><br><span class="line">                cb.setFontAndSize(bf, <span class="number">12</span>);</span><br><span class="line">                cb.showTextAligned(Element.ALIGN_MIDDLE, waterMark, <span class="number">75</span> * i,</span><br><span class="line">                        <span class="number">80</span> * j, <span class="number">30</span>);</span><br><span class="line">                cb.endText();</span><br><span class="line">                cb.restoreState();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCloseDocument</span><span class="params">(PdfWriter writer, Document document)</span> &#123;</span><br><span class="line">        ColumnText.showTextAligned(total, Element.ALIGN_LEFT, <span class="keyword">new</span> <span class="title class_">Phrase</span>(String.valueOf(writer.getPageNumber() - <span class="number">1</span>)), <span class="number">2</span>,</span><br><span class="line">                <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加水印后导出后的PDF</p>
+<h2 id="进一步理解"><a href="#进一步理解" class="headerlink" title="进一步理解"></a>进一步理解</h2><blockquote>
+<p>通过如下几个问题进一步理解itextpdf。</p>
+</blockquote>
+<h3 id="遇到license问题怎么办"><a href="#遇到license问题怎么办" class="headerlink" title="遇到license问题怎么办"></a>遇到license问题怎么办</h3><p>如前文所述，使用itext一定要了解其版本历史和License问题，在早前版本使用的是<strong>MPL和LGPL双许可协议</strong>，在5.x以上版本中使用的是<strong>AGPLv3</strong>。有两种选择：</p>
+<ol>
+<li>使用2.1.7版本</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;com.lowagie&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;itext&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;2.1.7&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用OpenPDF</li>
+</ol>
+<p>GitHub上有团队基于itext 4.x版本（MPL和LGPL双许可协议）fork了一个分支成为OpenPDF，并继续维护该项目。</p>
+<h3 id="为何添加页眉页脚和水印是通过PdfPageEvent来完成"><a href="#为何添加页眉页脚和水印是通过PdfPageEvent来完成" class="headerlink" title="为何添加页眉页脚和水印是通过PdfPageEvent来完成"></a>为何添加页眉页脚和水印是通过PdfPageEvent来完成</h3><blockquote>
+<p>为何添加页眉页脚和水印是通过PdfPageEvent来完成？</p>
+</blockquote>
+<p>举个例子，如果我们在上述例子中需要在页脚中显示 “Page 1 of 3”, 即总页数怎么办呢？而itext是流模式的写入内容，只有写到最后，才能知道有多少页，那么显示总页数必须在内容写完之后（或者关闭之前）确定；这就是为什么在onEndPage方法时才会写每页的页眉页脚。</p>
+<p>iText仅在调用释放模板方法后才将PdfTemplate写入到OutputStream中，否则对象将一直保存在内存中，直到关闭文档。所以我们可以在最后关闭文档前，使用PdfTemplate写入总页码。可以理解成先写个占位符，然后统一替换。</p>
+<h2 id="示例源码"><a href="#示例源码" class="headerlink" title="示例源码"></a>示例源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/realpdai/tech-pdai-spring-demos">https://github.com/realpdai/tech-pdai-spring-demos</a></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://itextpdf.com/">https://itextpdf.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012397189/article/details/80196974">https://blog.csdn.net/u012397189/article/details/80196974</a></p>
+
+
+
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/aa3b953/">Java与数据库类型映射</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/4ee1cd7b/">SpringBoot实现跨域的5种方式</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@Gentle Conspiracy</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.22.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img, .gallery img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://discuss.forever520.top/","commentCount":true,"pageview":false,"locale":{"placeholder":"有事可评论，无事更可评论！"},"emoji":["https://fastly.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs","https://unpkg.com/@waline/emojis@1.1.0/qq"],"requiredMeta":["nick"],"lang":"zh-CN","wordLimit":500,"pageSize":50}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <div class="iframe-container"><iframe frameborder="0" src="https://blog.ltyuanfang.cn/shizhong" width="100%" height="230px" scrolling="no"></iframe></div>
+  
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/clock5.css">
+  
+    <div style="height:60px;line-height:60px;font-size:14pt;font-weight:bold;text-align:center;color:pink;"><span id="hitokoto"><a href="#" id="hitokoto_text">"人生最大的遗憾,就是在最无能为力的时候遇到一个想要保护一生的人."</a></span><font color="pink">欢迎访问：<a href="https://al.forever520.top" target="_blank" >ZQ的资源站</a></font></div>
+  
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+  
+    <div style=" height:30px;line-height:30px;font-size:14pt;font-weight:bold;text-align:center;color:pink"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/yh3.js"></script>
+  
+    <div align="center"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://count.getloli.com/get/@LYcc?theme=rule34"></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/mytime2.js"></script>
+  
+    <script src="https://myhkw.cn/api/player/166996049082" id="myhk" key="166996049082" m="1"></script>
+  
+
+
+  </div>
+</body>
+</html>

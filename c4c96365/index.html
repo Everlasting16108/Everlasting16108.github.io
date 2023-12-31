@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>linux防火墙和开放端口常用命令 - ZQ的博客</title>
+
+  
+    <meta name="description" content="linux防火墙和开放端口常用命令防火墙:1.firewalld的基本使用启动： 1systemctl start firewalld  查状态： 1systemctl status firewalld   停止： 1systemctl disable firewalld  禁用： 1systemctl stop firewalld  2.查询端口是否开放: 1firewall-cmd --q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux防火墙和开放端口常用命令">
+<meta property="og:url" content="https://blog.forever520.top/c4c96365/index.html">
+<meta property="og:site_name" content="ZQ的博客">
+<meta property="og:description" content="linux防火墙和开放端口常用命令防火墙:1.firewalld的基本使用启动： 1systemctl start firewalld  查状态： 1systemctl status firewalld   停止： 1systemctl disable firewalld  禁用： 1systemctl stop firewalld  2.查询端口是否开放: 1firewall-cmd --q">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-11T09:35:44.000Z">
+<meta property="article:modified_time" content="2023-11-07T13:41:06.429Z">
+<meta property="article:author" content="Gentle Conspiracy">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="防火墙">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="Linux,防火墙">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/hls.js@latest"></script>
+    
+      <script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/flv.js@latest"></script>
+    
+      <link rel="shortcut icon" type="image/x-icon" href="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" />
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures/imgs/kancss.css" >
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/my.css" >
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/ag.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/qiehuan6.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/tiao3.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/myconsole.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/mydebug.js"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ZQ的博客</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/favorites/">收藏</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">linux防火墙和开放端口常用命令</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E9%98%B2%E7%81%AB%E5%A2%99%E6%9C%8D%E5%8A%A1"><span class="toc-text">开机启动防火墙服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99%E6%9C%8D%E5%8A%A1"><span class="toc-text">开机关闭防火墙服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%98%B2%E7%81%AB%E5%A2%99%E7%8A%B6%E6%80%81"><span class="toc-text">查看防火墙状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%90%AF%E5%8A%A8%E9%98%B2%E7%81%AB%E5%A2%99%E6%9C%8D%E5%8A%A1"><span class="toc-text">手动启动防火墙服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99%E6%9C%8D%E5%8A%A1"><span class="toc-text">手动关闭防火墙服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E9%98%B2%E7%81%AB%E5%A2%99%E6%9C%8D%E5%8A%A1"><span class="toc-text">重新启动防火墙服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%94%BE-TCP-%E6%88%96%E8%80%85-UDP-%E7%AB%AF%E5%8F%A3"><span class="toc-text">添加开放 TCP 或者 UDP 端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%BC%80%E6%94%BE%E7%9A%84-TCP-%E6%88%96%E8%80%85-UDP-%E7%AB%AF%E5%8F%A3"><span class="toc-text">删除开放的 TCP 或者 UDP 端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E9%98%B2%E7%81%AB%E5%A2%99%E8%A7%84%E5%88%99-%E3%80%90%E5%88%87%E8%AE%B0%E6%AF%8F%E6%AC%A1%E6%9B%B4%E6%94%B9firewall%E8%A7%84%E5%88%99%E5%90%8E%E9%9C%80%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BD%E3%80%91"><span class="toc-text">更新防火墙规则 【切记每次更改firewall规则后需重新加载】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%8C%87%E5%AE%9A%E7%AB%AF%E5%8F%A3%E6%98%AF%E5%90%A6%E5%BC%80%E6%94%BE"><span class="toc-text">查看指定端口是否开放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E6%89%93%E5%BC%80%E7%9A%84%E7%AB%AF%E5%8F%A3"><span class="toc-text">查看所有打开的端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E6%89%93%E5%BC%80%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="toc-text">查看所有打开的服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%98%B2%E7%81%AB%E5%A2%99%E8%A7%84%E5%88%99"><span class="toc-text">查看防火墙规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%9C%8D%E5%8A%A1"><span class="toc-text">添加服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%9C%8D%E5%8A%A1"><span class="toc-text">删除服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0IP%E7%99%BD%E5%90%8D%E5%8D%95"><span class="toc-text">添加IP白名单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4IP%E7%99%BD%E5%90%8D%E5%8D%95"><span class="toc-text">删除IP白名单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0IP%E9%BB%91%E5%90%8D%E5%8D%95"><span class="toc-text">添加IP黑名单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4IP%E9%BB%91%E5%90%8D%E5%8D%95"><span class="toc-text">删除IP黑名单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%A4%8D%E6%9D%82%E8%A7%84%E5%88%99-%E5%8F%AA%E5%85%81%E8%AE%B8-%E6%8C%87%E5%AE%9AIP-%E8%AE%BF%E9%97%AE-%E6%8C%87%E5%AE%9A%E7%AB%AF%E5%8F%A3%E3%80%90%E9%87%8D%E7%82%B9%E3%80%91"><span class="toc-text">添加复杂规则 只允许 指定IP 访问 指定端口【重点】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%A4%8D%E6%9D%82%E8%A7%84%E5%88%99"><span class="toc-text">删除复杂规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E4%B8%80%EF%BC%9A%E4%BD%BF%E7%94%A8firewall-cmd%E9%99%90%E5%88%B6ssh%E5%8F%AA%E8%83%BD%E4%BB%8E%E6%8C%87%E5%AE%9AIP%E8%AE%BF%E9%97%AE"><span class="toc-text">案例一：使用firewall-cmd限制ssh只能从指定IP访问</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/Linux/">Linux</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/Linux/%E9%98%B2%E7%81%AB%E5%A2%99/">防火墙</a></div><div id="post-meta">
+    <span>发布于&nbsp;<time datetime="2022-08-11T09:35:44.000Z">2022-08-11</time></span>
+    
+    <span>更新于&nbsp;<time datetime="2023-11-07T13:41:06.429Z">2023-11-07</time></span>
+    </div></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>linux防火墙和开放端口常用命令</span></h1>
+<!-- Linux防火墙命令 -->
+
+<h1 id="linux防火墙和开放端口常用命令"><a href="#linux防火墙和开放端口常用命令" class="headerlink" title="linux防火墙和开放端口常用命令"></a>linux防火墙和开放端口常用命令</h1><p><strong>防火墙:</strong><br><strong>1.firewalld的基本使用</strong><br>启动：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">start</span> firewalld</span><br></pre></td></tr></table></figure>
+
+<p>查状态：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld </span><br></pre></td></tr></table></figure>
+
+<p>停止：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl disable firewalld</span><br></pre></td></tr></table></figure>
+
+<p>禁用：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.查询端口是否开放:</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall<span class="literal">-cmd</span> <span class="literal">--query-port</span>=<span class="number">80</span>/tcp</span><br></pre></td></tr></table></figure>
+
+<p>开放80端口:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall<span class="literal">-cmd</span> <span class="literal">--permanent</span> <span class="literal">--add-port</span>=<span class="number">80</span>/tcp</span><br></pre></td></tr></table></figure>
+
+<p>移除端口：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall<span class="literal">-cmd</span> <span class="literal">--permanent</span> <span class="literal">--remove-port</span>=<span class="number">8080</span>/tcp</span><br></pre></td></tr></table></figure>
+
+<p>查看开放了那些端口:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall<span class="literal">-cmd</span> <span class="literal">--list-ports</span></span><br></pre></td></tr></table></figure>
+
+<p>重启防火墙(修改配置后要重启防火墙):</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall<span class="literal">-cmd</span> <span class="literal">--reload</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p><code>CentOS7</code> 默认使用的是<code>firewalld</code>作为防火墙。以下内容为 <code>CentOS7</code> 防火墙常用命令总结</p>
+</blockquote>
+<h2 id="开机启动防火墙服务"><a href="#开机启动防火墙服务" class="headerlink" title="开机启动防火墙服务"></a>开机启动防火墙服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# systemctl enable firewalld</span><br></pre></td></tr></table></figure>
+
+<h2 id="开机关闭防火墙服务"><a href="#开机关闭防火墙服务" class="headerlink" title="开机关闭防火墙服务"></a>开机关闭防火墙服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# systemctl disable firewalld</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看防火墙状态"><a href="#查看防火墙状态" class="headerlink" title="查看防火墙状态"></a>查看防火墙状态</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# systemctl status firewalld</span><br><span class="line">● firewalld.service - firewalld - dynamic firewall daemon</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; `disabled`; vendor preset: enabled)</span><br><span class="line">   Active: inactive (`dead`)</span><br><span class="line">     Docs: man:firewalld(1)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">`disabled` 表示开机默认不启动防火墙服务  对应 `<span class="built_in">enable</span>` 表示开机启动防火墙服务</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">`dead` 表示防火前当前处于关闭状态  对应 `running` 表示启动状态</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="手动启动防火墙服务"><a href="#手动启动防火墙服务" class="headerlink" title="手动启动防火墙服务"></a>手动启动防火墙服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# systemctl start firewalld</span><br></pre></td></tr></table></figure>
+
+<h2 id="手动关闭防火墙服务"><a href="#手动关闭防火墙服务" class="headerlink" title="手动关闭防火墙服务"></a>手动关闭防火墙服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# systemctl stop firewalld</span><br></pre></td></tr></table></figure>
+
+<h2 id="重新启动防火墙服务"><a href="#重新启动防火墙服务" class="headerlink" title="重新启动防火墙服务"></a>重新启动防火墙服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# systemctl restart firewalld</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加开放-TCP-或者-UDP-端口"><a href="#添加开放-TCP-或者-UDP-端口" class="headerlink" title="添加开放 TCP 或者 UDP 端口"></a>添加开放 TCP 或者 UDP 端口</h2><blockquote>
+<p><code>--permanent</code> 永久生效，没有此参数重启后失效】</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-port=3306/tcp</span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-port=8080-8081/tcp</span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-port=53/udp</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除开放的-TCP-或者-UDP-端口"><a href="#删除开放的-TCP-或者-UDP-端口" class="headerlink" title="删除开放的 TCP 或者 UDP 端口"></a>删除开放的 TCP 或者 UDP 端口</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-port=3306/tcp</span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-port=8080-8081/tcp</span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-port=53/udp</span><br></pre></td></tr></table></figure>
+
+<h2 id="更新防火墙规则-【切记每次更改firewall规则后需重新加载】"><a href="#更新防火墙规则-【切记每次更改firewall规则后需重新加载】" class="headerlink" title="更新防火墙规则 【切记每次更改firewall规则后需重新加载】"></a>更新防火墙规则 <strong>【切记每次更改firewall规则后需重新加载】</strong></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看指定端口是否开放"><a href="#查看指定端口是否开放" class="headerlink" title="查看指定端口是否开放"></a>查看指定端口是否开放</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --query-port=80/tcp</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看所有打开的端口"><a href="#查看所有打开的端口" class="headerlink" title="查看所有打开的端口"></a>查看所有打开的端口</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --list-ports</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看所有打开的服务"><a href="#查看所有打开的服务" class="headerlink" title="查看所有打开的服务"></a>查看所有打开的服务</h2><blockquote>
+<p>其实一个服务对应一个端口，每个服务对应 <code>/usr/lib/firewalld/services</code> 下面一个 <code>xml</code> 文件。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --list-services</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看防火墙规则"><a href="#查看防火墙规则" class="headerlink" title="查看防火墙规则"></a>查看防火墙规则</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加服务"><a href="#添加服务" class="headerlink" title="添加服务"></a>添加服务</h2><blockquote>
+<p>系统提供了部分默认服务配置，在 <code>/usr/lib/firewalld/services</code> 目录下 <code>xml</code> 配置文件中配置了默认端口；如果您希望在非标准端口上使用服务，则必须打开特定端口，参考 <code>firewall-cmd --permanent --add-port=8080/tcp</code> 所示。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-service=http</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除服务"><a href="#删除服务" class="headerlink" title="删除服务"></a>删除服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-service=http</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加IP白名单"><a href="#添加IP白名单" class="headerlink" title="添加IP白名单"></a>添加IP白名单</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-source=192.168.1.5</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者指定网络段CIDR格式</span></span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-source=192.168.1.0/24</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除IP白名单"><a href="#删除IP白名单" class="headerlink" title="删除IP白名单"></a>删除IP白名单</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-source=192.168.1.5</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者指定网络段CIDR格式</span></span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-source=192.168.1.0/24</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加IP黑名单"><a href="#添加IP黑名单" class="headerlink" title="添加IP黑名单"></a>添加IP黑名单</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-rich-rule=&quot;rule family=&#x27;ipv4&#x27; source address=&#x27;192.168.1.5&#x27; reject&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者指定网络段CIDR格式</span></span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-rich-rule=&quot;rule family=&#x27;ipv4&#x27; source address=&#x27;192.168.1.0/24&#x27; reject&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除IP黑名单"><a href="#删除IP黑名单" class="headerlink" title="删除IP黑名单"></a>删除IP黑名单</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-rich-rule=&quot;rule family=&#x27;ipv4&#x27; source address=&#x27;192.168.1.5&#x27; reject&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者指定网络段CIDR格式</span></span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-rich-rule=&quot;rule family=&#x27;ipv4&#x27; source address=&#x27;192.168.1.0/24&#x27; reject&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加复杂规则-只允许-指定IP-访问-指定端口【重点】"><a href="#添加复杂规则-只允许-指定IP-访问-指定端口【重点】" class="headerlink" title="添加复杂规则 只允许 指定IP 访问 指定端口【重点】"></a>添加复杂规则 <strong>只允许 指定IP 访问 指定端口【重点】</strong></h2><blockquote>
+<p><code>source address</code> 可以设置为单个IP地址或者 <code>CIDR</code>符号 <code>192.168.1.0/24</code> 一系列IP地址<br><code>port</code> 可以为单个端口或端口范围，例如 8080-8088</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-rich-rule=&quot;rule family=&#x27;ipv4&#x27; source address=&#x27;192.168.1.5&#x27; port protocol=&#x27;tcp&#x27; port=&#x27;22&#x27; accept&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除复杂规则"><a href="#删除复杂规则" class="headerlink" title="删除复杂规则"></a>删除复杂规则</h2><blockquote>
+<p>要删除复杂规则，请使用选项 <code>--remove-rich-rule</code> 必须完全指定要删除哪个规则，因此最好复制并粘贴完整规则，而不是尝试自己去输入规则。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-rich-rule=&quot;rule family=&#x27;ipv4&#x27; source address=&#x27;192.168.1.5&#x27; port protocol=&#x27;tcp&#x27; port=&#x27;22&#x27; accept&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="案例一：使用firewall-cmd限制ssh只能从指定IP访问"><a href="#案例一：使用firewall-cmd限制ssh只能从指定IP访问" class="headerlink" title="案例一：使用firewall-cmd限制ssh只能从指定IP访问"></a><strong>案例一：</strong>使用firewall-cmd限制ssh只能从指定IP访问</h2><blockquote>
+<p><strong>直接将堡垒机IP放行，其他IP无法访问 <code>ssh</code> 端口，可以有效的拦击扫描主机。减少服务器漏洞报告！演示环境将 <code>192.168.1.5</code> 模拟堡垒机ip，以及模拟服务器 <code>ssh</code> <code>22</code> 端口，让服务器只有堡垒机能够ssh链接，直接拦截漏洞扫描主机，不用经常升级 ssh 漏洞</strong></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1. 删除默认开启的没有访问限制的ssh服务</span></span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --remove-service=ssh</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2. 通过添加复杂规则，增加指定允许访问ssh端口的IP</span></span><br><span class="line">[root@localhost ~]# firewall-cmd --permanent --add-rich-rule=&quot;rule family=&#x27;ipv4&#x27; source address=&#x27;192.168.1.5&#x27; port protocol=&#x27;tcp&#x27; port=&#x27;22&#x27; accept&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">3. 更新防火墙规则</span></span><br><span class="line">[root@localhost ~]# firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/5c4469f6/">Idea常用快捷键列表</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/1af8d071/">万萌姐文章</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@Gentle Conspiracy</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.22.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img, .gallery img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://discuss.forever520.top/","commentCount":true,"pageview":false,"locale":{"placeholder":"有事可评论，无事更可评论！"},"emoji":["https://fastly.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs","https://unpkg.com/@waline/emojis@1.1.0/qq"],"requiredMeta":["nick"],"lang":"zh-CN","wordLimit":500,"pageSize":50}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <div class="iframe-container"><iframe frameborder="0" src="https://blog.ltyuanfang.cn/shizhong" width="100%" height="230px" scrolling="no"></iframe></div>
+  
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/clock5.css">
+  
+    <div style="height:60px;line-height:60px;font-size:14pt;font-weight:bold;text-align:center;color:pink;"><span id="hitokoto"><a href="#" id="hitokoto_text">"人生最大的遗憾,就是在最无能为力的时候遇到一个想要保护一生的人."</a></span><font color="pink">欢迎访问：<a href="https://al.forever520.top" target="_blank" >ZQ的资源站</a></font></div>
+  
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+  
+    <div style=" height:30px;line-height:30px;font-size:14pt;font-weight:bold;text-align:center;color:pink"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/yh3.js"></script>
+  
+    <div align="center"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://count.getloli.com/get/@LYcc?theme=rule34"></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/mytime2.js"></script>
+  
+    <script src="https://myhkw.cn/api/player/166996049082" id="myhk" key="166996049082" m="1"></script>
+  
+
+
+  </div>
+</body>
+</html>

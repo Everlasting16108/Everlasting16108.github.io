@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>十种常见的web攻击 - ZQ的博客</title>
+
+  
+    <meta name="description" content="软件开发离不开安全这个话题，确保网站或者网页应用的安全性，是每个开发人员都应该了解的事。本篇主要简单介绍在web领域十种常见的攻击手段及防御方式。 1. Dos拒绝服务攻击介绍：Dos拒绝服务攻击（Denial of Service attack）是一种能够让服务器呈现静止状态的攻击方式。其原理就是发送大量的合法请求到服务器，服务器无法分辨这些请求是正常请求还是攻击请求，所以会照单全收。海量的请求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十种常见的web攻击">
+<meta property="og:url" content="https://blog.forever520.top/c147cc06/index.html">
+<meta property="og:site_name" content="ZQ的博客">
+<meta property="og:description" content="软件开发离不开安全这个话题，确保网站或者网页应用的安全性，是每个开发人员都应该了解的事。本篇主要简单介绍在web领域十种常见的攻击手段及防御方式。 1. Dos拒绝服务攻击介绍：Dos拒绝服务攻击（Denial of Service attack）是一种能够让服务器呈现静止状态的攻击方式。其原理就是发送大量的合法请求到服务器，服务器无法分辨这些请求是正常请求还是攻击请求，所以会照单全收。海量的请求">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-12T09:04:46.000Z">
+<meta property="article:modified_time" content="2023-11-07T13:41:06.435Z">
+<meta property="article:author" content="Gentle Conspiracy">
+<meta property="article:tag" content="web攻击">
+<meta property="article:tag" content="安全">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="web攻击,安全">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/hls.js@latest"></script>
+    
+      <script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/flv.js@latest"></script>
+    
+      <link rel="shortcut icon" type="image/x-icon" href="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" />
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures/imgs/kancss.css" >
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/my.css" >
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/ag.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/qiehuan6.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/tiao3.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/myconsole.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/mydebug.js"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ZQ的博客</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/favorites/">收藏</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">十种常见的web攻击</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Dos%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB"><span class="toc-text">1. Dos拒绝服务攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CSRF%E8%B7%A8%E7%AB%99%E7%82%B9%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0"><span class="toc-text">2. CSRF跨站点请求伪造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-SOL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB"><span class="toc-text">3. SOL注入攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-XSS%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB"><span class="toc-text">4. XSS跨站脚本攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E"><span class="toc-text">**5.**文件上传漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-DNS%E6%9F%A5%E8%AF%A2%E6%94%BB%E5%87%BB"><span class="toc-text">6. DNS查询攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="toc-text">**7.**暴力破解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="toc-text">**8.**信息泄露</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E4%B8%9A%E5%8A%A1%E6%BC%8F%E6%B4%9E"><span class="toc-text">**9.**业务漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F"><span class="toc-text">**10.**后门程序</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/web%E6%94%BB%E5%87%BB/">web攻击</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/web%E6%94%BB%E5%87%BB/%E5%AE%89%E5%85%A8/">安全</a></div><div id="post-meta">
+    <span>发布于&nbsp;<time datetime="2022-08-12T09:04:46.000Z">2022-08-12</time></span>
+    
+    <span>更新于&nbsp;<time datetime="2023-11-07T13:41:06.435Z">2023-11-07</time></span>
+    </div></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>十种常见的web攻击</span></h1>
+<p>软件开发离不开安全这个话题，确保网站或者网页应用的安全性，是每个开发人员都应该了解的事。本篇主要简单介绍在web领域十种常见的攻击手段及防御方式。</p>
+<h2 id="1-Dos拒绝服务攻击"><a href="#1-Dos拒绝服务攻击" class="headerlink" title="1. Dos拒绝服务攻击"></a><strong>1.</strong> Dos拒绝服务攻击</h2><p>介绍：Dos拒绝服务攻击（Denial of Service attack）是一种能够让服务器呈现静止状态的攻击方式。其原理就是发送大量的合法请求到服务器，服务器无法分辨这些请求是正常请求还是攻击请求，所以会照单全收。海量的请求造成服务器进入停止工作或拒绝服务的状态。</p>
+<p>DDOS分布式拒绝服务攻击（Distributed Denial of Service）就是在DOS攻击基础上借助公共网络，将大数量的计算机设备联合起来，向一个或多个目标发送大量请求使使服务器瘫痪。DDoS攻击可以针对网络通讯协议的各层，大致有：TCP类的SYN Flood、ACK Flood，UDP类的Fraggle、Trinoo，DNS Query Flood，ICMP Flood，Slowloris类。CC攻击也是DDOS攻击的一种形式。</p>
+<p>防御：DDoS 防御的技术核心是检测技术和清洗技术。检测技术就是检测网站是否正在遭受 DDoS 攻击，而清洗技术就是清洗掉异常流量。而检测技术的核心在于对业务深刻的理解，才能快速精确判断出是否真的发生了 DDoS 攻击。清洗技术对检测来讲，不同的业务场景下要求的粒度不一样。</p>
+<h2 id="2-CSRF跨站点请求伪造"><a href="#2-CSRF跨站点请求伪造" class="headerlink" title="2. CSRF跨站点请求伪造"></a><strong>2.</strong> CSRF跨站点请求伪造</h2><p>介绍：CSRF跨站点请求伪造（Cross-Site Request Forgeries）是指攻击者通过已经设置好的陷阱，强制对已完成认证的用户进行非预期的个人信息状态更新，属于被动攻击。更简单的理解就是攻击者盗用了你的名义，以你的名义发送了其他请求。JSON 劫持（JSON Hijacking）是用于获取敏感数据的一种攻击方式，也属于 CSRF 攻击的范畴。</p>
+<p>防御：1）将cookie设置为HttpOnly。CSRF攻击很大程度是利用了浏览器的cookie，为了防止站内XSS漏洞，cookie设置HttpOnly属性，JS脚本就无法读取到cookie中的信息，避免攻击者伪造cookie的情况出现。</p>
+<p>2）增加token。CSRF攻击之所以成功，主要是攻击中伪造了用户请求，而用户请求的验证信息都在cookie中，攻击者就可以利用cookie伪造请求通过安全验证。因此抵御CSRF攻击的关键就是，在请求中放入攻击者不能伪造的信息，并且信息不在cookie中。鉴于此，开发人员可以在http请求中以参数的形式加一个token，此token在服务端生成，也在服务端校验，服务端的每次会话都可以用同一个token。如果验证token不一致，则认为是CSRF攻击，拒绝请求。</p>
+<p>3）通过Referer识别。Http头中有一个字段Referer，它记录了Http请求来源地址。但是注意不要把Rerferer用在身份验证或者其他非常重要的检查上，因为Rerferer非常容易在客户端被改变。</p>
+<h2 id="3-SOL注入攻击"><a href="#3-SOL注入攻击" class="headerlink" title="3. SOL注入攻击"></a><strong>3.</strong> SOL注入攻击</h2><p>介绍：SOL注入攻击是攻击者成功的向服务器提交恶意的SQL查询代码，程序在接收后错误的将攻击者的输入作为查询语句的一部分执行，导致原始的查询逻辑被改变，额外的执行了攻击者精心构造的恶意代码。</p>
+<p>举例：’ OR ‘1’&#x3D;’1，这是最常见的 SQL注入攻击。当我们输入用户名 admin ，然后密码输入’ OR ‘1’&#x3D;1&#x3D;’1的时候，我们在查询用户名和密码是否正确的时候，本来要执行的是SELECT * FROM user WHERE username&#x3D;’’ and password&#x3D;’’,经过参数拼接后，会执行 SQL语句 SELECT * FROM user WHERE username&#x3D;’’ and password&#x3D;’’ OR ‘1’&#x3D;’1’，这个时候1&#x3D;1是成立，自然就跳过验证。</p>
+<p>防御：对进入数据库的特殊字符（’”&lt;&gt;&amp;*;等）进行转义处理，或编码转换。在应用发布之前建议使用专业的SQL注入检测工具（如sqlmap、SQLninja）进行检测，以及时修补被发现的SQL注入漏洞。避免网站打印出SQL错误信息，比如类型错误、字段不匹配等，容易把代码里的SQL语句暴露出来。</p>
+<h2 id="4-XSS跨站脚本攻击"><a href="#4-XSS跨站脚本攻击" class="headerlink" title="4. XSS跨站脚本攻击"></a><strong>4.</strong> XSS跨站脚本攻击</h2><p>介绍：XSS跨站脚本攻击（Cross-Site scripting）是指在通过注册的网站用户的浏览器内运行非法的HTML标签或javascript，从而达到攻击的目的，如盗取用户的cookie，改变网页的DOM结构，重定向到其他网页等。XSS攻击分类包含反射型，存储型，DOM型，FLASH。</p>
+<p>防御：坚决不要相信用户的任何输入，并过滤掉输入中的所有特殊字符。这样就能消灭绝大部分的XSS攻击。主要有两种方式：过滤特殊字符和使用HTTP头指定类型。</p>
+<h2 id="5-文件上传漏洞"><a href="#5-文件上传漏洞" class="headerlink" title="**5.**文件上传漏洞"></a>**5.**文件上传漏洞</h2><p>介绍：倘若web网站没有对文件类型进行严格的校验，导致可执行文件上传到了服务器，恶意程序就会执行。</p>
+<p>防御：客户端检测 ：程序员一般使用 JavaScript 来拒绝非法文件上传。</p>
+<p>服务器端检测：</p>
+<p>1）白名单与黑名单验证：定义不允许或允许上传的文件扩展名；</p>
+<p>2）MIME验证：php 中通过 $_FILE[‘file’][‘type’] 来检验；</p>
+<p>3）目录验证：在文件上传时，程序通常允许用户将文件放到指定的目录中，如果指定的目录存在，就将文件写入目录中。</p>
+<h2 id="6-DNS查询攻击"><a href="#6-DNS查询攻击" class="headerlink" title="6. DNS查询攻击"></a><strong>6.</strong> DNS查询攻击</h2><p>介绍：DNS查询攻击（DNS Query Flood）是向被攻击的服务器发送海量的随机生成的域名解析请求，大部分根本就不存在，并且通过伪造端口和客户端IP，防止查询请求被ACL过滤。</p>
+<p>被攻击的DNS服务器在接收到域名解析请求后，首先会在服务器上查找是否有对应的缓存，当没有缓存并且该域名无法直接由该DNS服务器进行解析的时候，DNS服务器会向其上层DNS服务器递归查询域名信息，直到全球互联网的13台根DNS服务器。</p>
+<p>大量不存在的域名解析请求，给服务器带来了很大的负载，当解析请求超过一定量的时候，就会造成DNS服务器解析域名超时，这样攻击者便达成了攻击目的。</p>
+<p>防御：根据域名 IP 自学习结果主动回应，减轻服务器负载（使用 DNS Cache）；对突然发起大量频度较低的域名解析请求的源 IP 地址进行带宽限制；在攻击发生时降低很少发起域名解析请求的源 IP 地址的优先级；限制每个源 IP 地址每秒的域名解析请求次数。</p>
+<h2 id="7-暴力破解"><a href="#7-暴力破解" class="headerlink" title="**7.**暴力破解"></a>**7.**暴力破解</h2><p>介绍：这个一般针对密码而言，弱密码（Weak Password）很容易被别人猜到或被破解工具暴力破解。</p>
+<p>防御：防御方法主要有两种，其一密码复杂度要足够大也要足够隐蔽，其二限制尝试次数。</p>
+<h2 id="8-信息泄露"><a href="#8-信息泄露" class="headerlink" title="**8.**信息泄露"></a>**8.**信息泄露</h2><p>介绍：由于 Web 服务器或应用程序没有正确处理一些特殊请求，泄露 Web 服务器的一些敏感信息，如用户名、密码、源代码、服务器信息、配置信息等。</p>
+<p>防御：敏感信息加密传输；应用程序报错时，不对外产生调试信息；过滤用户提交的数据与特殊字符；保证源代码、服务器配置的安全。</p>
+<h2 id="9-业务漏洞"><a href="#9-业务漏洞" class="headerlink" title="**9.**业务漏洞"></a>**9.**业务漏洞</h2><p>介绍：业务漏洞是跟具体的应用程序相关，比如参数篡改（连续编号 ID &#x2F; 订单、1 元支付）、重放攻击（伪装支付）、权限控制（越权操作）等。</p>
+<p>防御：系统设计阶段就需要考虑业务漏洞的问题，尽量避免连续编号、越权操作等。</p>
+<h2 id="10-后门程序"><a href="#10-后门程序" class="headerlink" title="**10.**后门程序"></a>**10.**后门程序</h2><p>介绍：后门程序一般是指那些绕过安全性控制而获取对程序或系统访问权的程序方法。在软件的开发阶段，程序员常常会在软件内创建后门程序以便可以修改程序设计中的缺陷。但是如果这些后门被其他人知道，或是在发布软件之前没有删除后门程序，那么它就成了安全风险，容易被黑客当成漏洞进行攻击。</p>
+<p>防御：使用非对称后门接口进行软件更新，避免对称后门接口， 给后端程序加壳，更新去除后门的补丁程序。</p>
+
+
+
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/284985fb/">常见web攻击</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/a69da845/">Truncate用法详解</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@Gentle Conspiracy</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.22.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img, .gallery img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://discuss.forever520.top/","commentCount":true,"pageview":false,"locale":{"placeholder":"有事可评论，无事更可评论！"},"emoji":["https://fastly.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs","https://unpkg.com/@waline/emojis@1.1.0/qq"],"requiredMeta":["nick"],"lang":"zh-CN","wordLimit":500,"pageSize":50}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <div class="iframe-container"><iframe frameborder="0" src="https://blog.ltyuanfang.cn/shizhong" width="100%" height="230px" scrolling="no"></iframe></div>
+  
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/clock5.css">
+  
+    <div style="height:60px;line-height:60px;font-size:14pt;font-weight:bold;text-align:center;color:pink;"><span id="hitokoto"><a href="#" id="hitokoto_text">"人生最大的遗憾,就是在最无能为力的时候遇到一个想要保护一生的人."</a></span><font color="pink">欢迎访问：<a href="https://al.forever520.top" target="_blank" >ZQ的资源站</a></font></div>
+  
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+  
+    <div style=" height:30px;line-height:30px;font-size:14pt;font-weight:bold;text-align:center;color:pink"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/yh3.js"></script>
+  
+    <div align="center"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://count.getloli.com/get/@LYcc?theme=rule34"></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/mytime2.js"></script>
+  
+    <script src="https://myhkw.cn/api/player/166996049082" id="myhk" key="166996049082" m="1"></script>
+  
+
+
+  </div>
+</body>
+</html>

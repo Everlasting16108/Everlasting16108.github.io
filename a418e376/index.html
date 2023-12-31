@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Maven配置教程 - ZQ的博客</title>
+
+  
+    <meta name="description" content="Maven配置教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven配置教程">
+<meta property="og:url" content="https://blog.forever520.top/a418e376/index.html">
+<meta property="og:site_name" content="ZQ的博客">
+<meta property="og:description" content="Maven配置教程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024552.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024600.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024647.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024688.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024740">
+<meta property="og:image" content="http://oy2owwigw.bkt.clouddn.com/18-8-26/78210581.jpg">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024780.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024817.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024859.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024910.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024964.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/201812291700252.png">
+<meta property="article:published_time" content="2022-10-09T13:55:33.000Z">
+<meta property="article:modified_time" content="2023-11-07T13:41:06.428Z">
+<meta property="article:author" content="Gentle Conspiracy">
+<meta property="article:tag" content="Maven">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024552.png">
+  
+  
+  
+  <meta name="keywords" content="Maven,编程">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/hls.js@latest"></script>
+    
+      <script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/flv.js@latest"></script>
+    
+      <link rel="shortcut icon" type="image/x-icon" href="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" />
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures/imgs/kancss.css" >
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/my.css" >
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/ag.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/qiehuan6.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/tiao3.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/myconsole.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/mydebug.js"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ZQ的博客</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/favorites/">收藏</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Maven配置教程</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven%E7%9A%84%E4%B8%8B%E8%BD%BD"><span class="toc-text">Maven的下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE"><span class="toc-text">Maven常用配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE"><span class="toc-text">1. 环境变量配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">2. 修改配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E4%BD%8D%E7%BD%AE%E4%BF%AE%E6%94%B9"><span class="toc-text">1. 本地仓库位置修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BF%AE%E6%94%B9maven%E9%BB%98%E8%AE%A4%E7%9A%84JDK%E7%89%88%E6%9C%AC"><span class="toc-text">2. 修改maven默认的JDK版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%B7%BB%E5%8A%A0%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90"><span class="toc-text">3. 添加国内镜像源</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8IDE%E4%B8%8B%E9%85%8D%E7%BD%AEMaven"><span class="toc-text">常用IDE下配置Maven</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IDEA%E4%B8%8B%E9%85%8D%E7%BD%AEMaven"><span class="toc-text">IDEA下配置Maven</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Eclipse%E4%B8%8B%E9%85%8D%E7%BD%AEMaven"><span class="toc-text">Eclipse下配置Maven</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%EF%BC%9A%E5%AE%8C%E6%95%B4%E7%9A%84Settings-xml%E6%96%87%E4%BB%B6"><span class="toc-text">附：完整的Settings.xml文件</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/Maven/">Maven</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/Maven/%E7%BC%96%E7%A8%8B/">编程</a></div><div id="post-meta">
+    <span>发布于&nbsp;<time datetime="2022-10-09T13:55:33.000Z">2022-10-09</time></span>
+    
+    <span>更新于&nbsp;<time datetime="2023-11-07T13:41:06.428Z">2023-11-07</time></span>
+    </div></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>Maven配置教程</span></h1>
+<p>Maven配置教程</p>
+<span id="more"></span>
+
+<h2 id="Maven的下载"><a href="#Maven的下载" class="headerlink" title="Maven的下载"></a>Maven的下载</h2><ol>
+<li>在Maven的官网即可下载，点击访问<a target="_blank" rel="noopener" href="http://maven.apache.org/download.cgi">Apache Maven</a>。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024552.png" alt="img"></p>
+<ol>
+<li>下载后解压即可，解压后目录结构如下：</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024600.png" alt="img"></p>
+<h2 id="Maven常用配置"><a href="#Maven常用配置" class="headerlink" title="Maven常用配置"></a>Maven常用配置</h2><p>在配置之前请将JDK安装好。</p>
+<h3 id="1-环境变量配置"><a href="#1-环境变量配置" class="headerlink" title="1. 环境变量配置"></a>1. 环境变量配置</h3><ol>
+<li>添加<strong>M2_HOME</strong>:对应Maven的解压目录即可。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024647.png" alt="img"></p>
+<ol>
+<li>编辑<strong>Path</strong>环境变量：</li>
+<li><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024688.png" alt="img"></li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024740" alt="img"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://oy2owwigw.bkt.clouddn.com/18-8-26/78210581.jpg" alt="img"></p>
+<ol>
+<li>测试，在cmd窗口输入<code>mvn -v</code>查看</li>
+</ol>
+<p>显示如下即配置成功：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024780.png" alt="img"></p>
+<h3 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2. 修改配置文件"></a>2. 修改配置文件</h3><p>通常我们需要修改解压目录下<code>conf/settings.xml</code>文件，这样可以更好的适合我们的使用。</p>
+<ul>
+<li>此处注意：所有的修改一定要在注释标签外面，不然修改无效。Maven很多标签都是给的例子，都是注释掉的。</li>
+</ul>
+<p><strong>文章最后附上我的整个Settings.xml文件配置。</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024817.png" alt="img"></p>
+<h4 id="1-本地仓库位置修改"><a href="#1-本地仓库位置修改" class="headerlink" title="1. 本地仓库位置修改"></a>1. 本地仓库位置修改</h4><p>在&lt;**localRepository**&gt;标签内添加自己的本地位置路径</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">&lt;!-- localRepository</span></span><br><span class="line"><span class="comment">  | The path to the local repository maven will use to store artifacts.</span></span><br><span class="line"><span class="comment">  |</span></span><br><span class="line"><span class="comment">  | Default: $&#123;user.home&#125;/.m2/repository</span></span><br><span class="line"><span class="comment"> &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;</span></span><br><span class="line"><span class="comment"> --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>D:\tools\repository<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-修改maven默认的JDK版本"><a href="#2-修改maven默认的JDK版本" class="headerlink" title="2. 修改maven默认的JDK版本"></a>2. 修改maven默认的JDK版本</h4><p>在&lt;**profiles**&gt;标签下添加一个&lt;**profile**&gt;标签，修改maven默认的JDK版本。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">profile</span>&gt;</span>     </span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>JDK-1.8<span class="tag">&lt;/<span class="name">id</span>&gt;</span>       </span><br><span class="line">    <span class="tag">&lt;<span class="name">activation</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">activeByDefault</span>&gt;</span>true<span class="tag">&lt;/<span class="name">activeByDefault</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span>       </span><br><span class="line">    <span class="tag">&lt;/<span class="name">activation</span>&gt;</span>       </span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">maven.compiler.compilerVersion</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.compilerVersion</span>&gt;</span>       </span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span>       </span><br><span class="line"><span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-添加国内镜像源"><a href="#3-添加国内镜像源" class="headerlink" title="3. 添加国内镜像源"></a>3. 添加国内镜像源</h4><p>添加&lt;**mirrors**&gt;标签下&lt;**mirror**&gt;，添加国内镜像源，这样下载jar包速度很快。默认的中央仓库有时候甚至连接不通。一般使用阿里云镜像库即可。这里我就都加上了，Maven会默认从这几个开始下载，没有的话就会去中央仓库了。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 阿里云仓库 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/repositories/central/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 中央仓库1 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>repo1<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>Human Readable Name for this Mirror.<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://repo1.maven.org/maven2/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 中央仓库2 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>repo2<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>Human Readable Name for this Mirror.<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://repo2.maven.org/maven2/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="常用IDE下配置Maven"><a href="#常用IDE下配置Maven" class="headerlink" title="常用IDE下配置Maven"></a>常用IDE下配置Maven</h2><p>目前常用的开发工具如idea，eclipse都自身集成了一个版本的Maven。但是通常我们使用自己已经配置好的Maven。</p>
+<h3 id="IDEA下配置Maven"><a href="#IDEA下配置Maven" class="headerlink" title="IDEA下配置Maven"></a>IDEA下配置Maven</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024859.png" alt="img"></p>
+<p>1：此处修改为自己解压的Maven目录</p>
+<p>2：勾选<strong>Override</strong>，修改为自己目录下的<strong>settings.xml</strong>目录</p>
+<p>3：修改为自己的本地仓库地址，一般会自动识别。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024910.png" alt="img"></p>
+<p>此处勾选，当修改pom文件时，Maven就能帮我们自动导包了。</p>
+<h3 id="Eclipse下配置Maven"><a href="#Eclipse下配置Maven" class="headerlink" title="Eclipse下配置Maven"></a>Eclipse下配置Maven</h3><ol>
+<li>将eclipse使用的Maven修改为自己的。点击add后选择自己Maven的安装目录即可。添加好之后记得勾选。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/20181229170024964.png" alt="img"></p>
+<ol>
+<li>将所有的settings修改为自己Maven目录下的<strong>conf&#x2F;settings.xml</strong>.点击<strong>Update Settings</strong>按钮，下面的Local Respository会自动识别出来。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/CSDN/Maven%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/201812291700252.png" alt="img"></p>
+<hr>
+<h2 id="附：完整的Settings-xml文件"><a href="#附：完整的Settings-xml文件" class="headerlink" title="附：完整的Settings.xml文件"></a>附：完整的Settings.xml文件</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">Licensed to the Apache Software Foundation (ASF) under one</span></span><br><span class="line"><span class="comment">or more contributor license agreements.  See the NOTICE file</span></span><br><span class="line"><span class="comment">distributed with this work for additional information</span></span><br><span class="line"><span class="comment">regarding copyright ownership.  The ASF licenses this file</span></span><br><span class="line"><span class="comment">to you under the Apache License, Version 2.0 (the</span></span><br><span class="line"><span class="comment">&quot;License&quot;); you may not use this file except in compliance</span></span><br><span class="line"><span class="comment">with the License.  You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Unless required by applicable law or agreed to in writing,</span></span><br><span class="line"><span class="comment">software distributed under the License is distributed on an</span></span><br><span class="line"><span class="comment">&quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY</span></span><br><span class="line"><span class="comment">KIND, either express or implied.  See the License for the</span></span><br><span class="line"><span class="comment">specific language governing permissions and limitations</span></span><br><span class="line"><span class="comment">under the License.</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment"> | This is the configuration file for Maven. It can be specified at two levels:</span></span><br><span class="line"><span class="comment"> |</span></span><br><span class="line"><span class="comment"> |  1. User Level. This settings.xml file provides configuration for a single user,</span></span><br><span class="line"><span class="comment"> |                 and is normally provided in $&#123;user.home&#125;/.m2/settings.xml.</span></span><br><span class="line"><span class="comment"> |</span></span><br><span class="line"><span class="comment"> |                 <span class="doctag">NOTE:</span> This location can be overridden with the CLI option:</span></span><br><span class="line"><span class="comment"> |</span></span><br><span class="line"><span class="comment"> |                 -s /path/to/user/settings.xml</span></span><br><span class="line"><span class="comment"> |</span></span><br><span class="line"><span class="comment"> |  2. Global Level. This settings.xml file provides configuration for all Maven</span></span><br><span class="line"><span class="comment"> |                 users on a machine (assuming they&#x27;re all using the same Maven</span></span><br><span class="line"><span class="comment"> |                 installation). It&#x27;s normally provided in</span></span><br><span class="line"><span class="comment"> |                 $&#123;maven.conf&#125;/settings.xml.</span></span><br><span class="line"><span class="comment"> |</span></span><br><span class="line"><span class="comment"> |                 <span class="doctag">NOTE:</span> This location can be overridden with the CLI option:</span></span><br><span class="line"><span class="comment"> |</span></span><br><span class="line"><span class="comment"> |                 -gs /path/to/global/settings.xml</span></span><br><span class="line"><span class="comment"> |</span></span><br><span class="line"><span class="comment"> | The sections in this sample file are intended to give you a running start at</span></span><br><span class="line"><span class="comment"> | getting the most out of your Maven installation. Where appropriate, the default</span></span><br><span class="line"><span class="comment"> | values (values used when the setting is not specified) are provided.</span></span><br><span class="line"><span class="comment"> |</span></span><br><span class="line"><span class="comment"> |--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">settings</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- localRepository</span></span><br><span class="line"><span class="comment">   | The path to the local repository maven will use to store artifacts.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | Default: $&#123;user.home&#125;/.m2/repository</span></span><br><span class="line"><span class="comment">  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>D:\tools\repository<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- interactiveMode</span></span><br><span class="line"><span class="comment">   | This will determine whether maven prompts you when it needs input. If set to false,</span></span><br><span class="line"><span class="comment">   | maven will use a sensible default value, perhaps based on some other setting, for</span></span><br><span class="line"><span class="comment">   | the parameter in question.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | Default: true</span></span><br><span class="line"><span class="comment">  &lt;interactiveMode&gt;true&lt;/interactiveMode&gt;</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- offline</span></span><br><span class="line"><span class="comment">   | Determines whether maven should attempt to connect to the network when executing a build.</span></span><br><span class="line"><span class="comment">   | This will have an effect on artifact downloads, artifact deployment, and others.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | Default: false</span></span><br><span class="line"><span class="comment">  &lt;offline&gt;false&lt;/offline&gt;</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- pluginGroups</span></span><br><span class="line"><span class="comment">   | This is a list of additional group identifiers that will be searched when resolving plugins by their prefix, i.e.</span></span><br><span class="line"><span class="comment">   | when invoking a command line like &quot;mvn prefix:goal&quot;. Maven will automatically add the group identifiers</span></span><br><span class="line"><span class="comment">   | &quot;org.apache.maven.plugins&quot; and &quot;org.codehaus.mojo&quot; if these are not already contained in the list.</span></span><br><span class="line"><span class="comment">   |--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">pluginGroups</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- pluginGroup</span></span><br><span class="line"><span class="comment">     | Specifies a further group identifier to use for plugin lookup.</span></span><br><span class="line"><span class="comment">    &lt;pluginGroup&gt;com.your.plugins&lt;/pluginGroup&gt;</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">pluginGroups</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- proxies</span></span><br><span class="line"><span class="comment">   | This is a list of proxies which can be used on this machine to connect to the network.</span></span><br><span class="line"><span class="comment">   | Unless otherwise specified (by system property or command-line switch), the first proxy</span></span><br><span class="line"><span class="comment">   | specification in this list marked as active will be used.</span></span><br><span class="line"><span class="comment">   |--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">proxies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- proxy</span></span><br><span class="line"><span class="comment">     | Specification for one proxy, to be used in connecting to the network.</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">    &lt;proxy&gt;</span></span><br><span class="line"><span class="comment">      &lt;id&gt;optional&lt;/id&gt;</span></span><br><span class="line"><span class="comment">      &lt;active&gt;true&lt;/active&gt;</span></span><br><span class="line"><span class="comment">      &lt;protocol&gt;http&lt;/protocol&gt;</span></span><br><span class="line"><span class="comment">      &lt;username&gt;proxyuser&lt;/username&gt;</span></span><br><span class="line"><span class="comment">      &lt;password&gt;proxypass&lt;/password&gt;</span></span><br><span class="line"><span class="comment">      &lt;host&gt;proxy.host.net&lt;/host&gt;</span></span><br><span class="line"><span class="comment">      &lt;port&gt;80&lt;/port&gt;</span></span><br><span class="line"><span class="comment">      &lt;nonProxyHosts&gt;local.net|some.host.com&lt;/nonProxyHosts&gt;</span></span><br><span class="line"><span class="comment">    &lt;/proxy&gt;</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">proxies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- servers</span></span><br><span class="line"><span class="comment">   | This is a list of authentication profiles, keyed by the server-id used within the system.</span></span><br><span class="line"><span class="comment">   | Authentication profiles can be used whenever maven must make a connection to a remote server.</span></span><br><span class="line"><span class="comment">   |--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">servers</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- server</span></span><br><span class="line"><span class="comment">     | Specifies the authentication information to use when connecting to a particular server, identified by</span></span><br><span class="line"><span class="comment">     | a unique name within the system (referred to by the &#x27;id&#x27; attribute below).</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">     | <span class="doctag">NOTE:</span> You should either specify username/password OR privateKey/passphrase, since these pairings are</span></span><br><span class="line"><span class="comment">     |       used together.</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">    &lt;server&gt;</span></span><br><span class="line"><span class="comment">      &lt;id&gt;deploymentRepo&lt;/id&gt;</span></span><br><span class="line"><span class="comment">      &lt;username&gt;repouser&lt;/username&gt;</span></span><br><span class="line"><span class="comment">      &lt;password&gt;repopwd&lt;/password&gt;</span></span><br><span class="line"><span class="comment">    &lt;/server&gt;</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Another sample, using keys to authenticate.</span></span><br><span class="line"><span class="comment">    &lt;server&gt;</span></span><br><span class="line"><span class="comment">      &lt;id&gt;siteServer&lt;/id&gt;</span></span><br><span class="line"><span class="comment">      &lt;privateKey&gt;/path/to/private/key&lt;/privateKey&gt;</span></span><br><span class="line"><span class="comment">      &lt;passphrase&gt;optional; leave empty if not used.&lt;/passphrase&gt;</span></span><br><span class="line"><span class="comment">    &lt;/server&gt;</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servers</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- mirrors</span></span><br><span class="line"><span class="comment">   | This is a list of mirrors to be used in downloading artifacts from remote repositories.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | It works like this: a POM may declare a repository to use in resolving certain artifacts.</span></span><br><span class="line"><span class="comment">   | However, this repository may have problems with heavy traffic at times, so people have mirrored</span></span><br><span class="line"><span class="comment">   | it to several places.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | That repository definition will have a unique id, so we can create a mirror reference for that</span></span><br><span class="line"><span class="comment">   | repository, to be used as an alternate download site. The mirror site will be the preferred</span></span><br><span class="line"><span class="comment">   | server for that repository.</span></span><br><span class="line"><span class="comment">   |--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- mirror</span></span><br><span class="line"><span class="comment">     | Specifies a repository mirror site to use instead of a given repository. The repository that</span></span><br><span class="line"><span class="comment">     | this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used</span></span><br><span class="line"><span class="comment">     | for inheritance and direct lookup purposes, and must be unique across the set of mirrors.</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">    &lt;mirror&gt;</span></span><br><span class="line"><span class="comment">      &lt;id&gt;mirrorId&lt;/id&gt;</span></span><br><span class="line"><span class="comment">      &lt;mirrorOf&gt;repositoryId&lt;/mirrorOf&gt;</span></span><br><span class="line"><span class="comment">      &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;</span></span><br><span class="line"><span class="comment">      &lt;url&gt;http://my.repository.com/repo/path&lt;/url&gt;</span></span><br><span class="line"><span class="comment">    &lt;/mirror&gt;</span></span><br><span class="line"><span class="comment">     --&gt;</span></span><br><span class="line">	    <span class="comment">&lt;!-- 阿里云仓库 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/repositories/central/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 中央仓库1 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>repo1<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>Human Readable Name for this Mirror.<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://repo1.maven.org/maven2/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 中央仓库2 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>repo2<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>Human Readable Name for this Mirror.<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://repo2.maven.org/maven2/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- profiles</span></span><br><span class="line"><span class="comment">   | This is a list of profiles which can be activated in a variety of ways, and which can modify</span></span><br><span class="line"><span class="comment">   | the build process. Profiles provided in the settings.xml are intended to provide local machine-</span></span><br><span class="line"><span class="comment">   | specific paths and repository locations which allow the build to work in the local environment.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | For example, if you have an integration testing plugin - like cactus - that needs to know where</span></span><br><span class="line"><span class="comment">   | your Tomcat instance is installed, you can provide a variable here such that the variable is</span></span><br><span class="line"><span class="comment">   | dereferenced during the build process to configure the cactus plugin.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | As noted above, profiles can be activated in a variety of ways. One way - the activeProfiles</span></span><br><span class="line"><span class="comment">   | section of this document (settings.xml) - will be discussed later. Another way essentially</span></span><br><span class="line"><span class="comment">   | relies on the detection of a system property, either matching a particular value for the property,</span></span><br><span class="line"><span class="comment">   | or merely testing its existence. Profiles can also be activated by JDK version prefix, where a</span></span><br><span class="line"><span class="comment">   | value of &#x27;1.4&#x27; might activate a profile when the build is executed on a JDK version of &#x27;1.4.2_07&#x27;.</span></span><br><span class="line"><span class="comment">   | Finally, the list of active profiles can be specified directly from the command line.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | <span class="doctag">NOTE:</span> For profiles defined in the settings.xml, you are restricted to specifying only artifact</span></span><br><span class="line"><span class="comment">   |       repositories, plugin repositories, and free-form properties to be used as configuration</span></span><br><span class="line"><span class="comment">   |       variables for plugins in the POM.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   |--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">profiles</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- profile</span></span><br><span class="line"><span class="comment">     | Specifies a set of introductions to the build process, to be activated using one or more of the</span></span><br><span class="line"><span class="comment">     | mechanisms described above. For inheritance purposes, and to activate profiles via &lt;activatedProfiles/&gt;</span></span><br><span class="line"><span class="comment">     | or the command line, profiles have to have an ID that is unique.</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">     | An encouraged best practice for profile identification is to use a consistent naming convention</span></span><br><span class="line"><span class="comment">     | for profiles, such as &#x27;env-dev&#x27;, &#x27;env-test&#x27;, &#x27;env-production&#x27;, &#x27;user-jdcasey&#x27;, &#x27;user-brett&#x27;, etc.</span></span><br><span class="line"><span class="comment">     | This will make it more intuitive to understand what the set of introduced profiles is attempting</span></span><br><span class="line"><span class="comment">     | to accomplish, particularly when you only have a list of profile id&#x27;s for debug.</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">     | This profile example uses the JDK version to trigger activation, and provides a JDK-specific repo.</span></span><br><span class="line"><span class="comment">    &lt;profile&gt;</span></span><br><span class="line"><span class="comment">      &lt;id&gt;jdk-1.4&lt;/id&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">      &lt;activation&gt;</span></span><br><span class="line"><span class="comment">        &lt;jdk&gt;1.4&lt;/jdk&gt;</span></span><br><span class="line"><span class="comment">      &lt;/activation&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">      &lt;repositories&gt;</span></span><br><span class="line"><span class="comment">        &lt;repository&gt;</span></span><br><span class="line"><span class="comment">          &lt;id&gt;jdk14&lt;/id&gt;</span></span><br><span class="line"><span class="comment">          &lt;name&gt;Repository for JDK 1.4 builds&lt;/name&gt;</span></span><br><span class="line"><span class="comment">          &lt;url&gt;http://www.myhost.com/maven/jdk14&lt;/url&gt;</span></span><br><span class="line"><span class="comment">          &lt;layout&gt;default&lt;/layout&gt;</span></span><br><span class="line"><span class="comment">          &lt;snapshotPolicy&gt;always&lt;/snapshotPolicy&gt;</span></span><br><span class="line"><span class="comment">        &lt;/repository&gt;</span></span><br><span class="line"><span class="comment">      &lt;/repositories&gt;</span></span><br><span class="line"><span class="comment">    &lt;/profile&gt;</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">     | Here is another profile, activated by the system property &#x27;target-env&#x27; with a value of &#x27;dev&#x27;,</span></span><br><span class="line"><span class="comment">     | which provides a specific path to the Tomcat instance. To use this, your plugin configuration</span></span><br><span class="line"><span class="comment">     | might hypothetically look like:</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">     | ...</span></span><br><span class="line"><span class="comment">     | &lt;plugin&gt;</span></span><br><span class="line"><span class="comment">     |   &lt;groupId&gt;org.myco.myplugins&lt;/groupId&gt;</span></span><br><span class="line"><span class="comment">     |   &lt;artifactId&gt;myplugin&lt;/artifactId&gt;</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">     |   &lt;configuration&gt;</span></span><br><span class="line"><span class="comment">     |     &lt;tomcatLocation&gt;$&#123;tomcatPath&#125;&lt;/tomcatLocation&gt;</span></span><br><span class="line"><span class="comment">     |   &lt;/configuration&gt;</span></span><br><span class="line"><span class="comment">     | &lt;/plugin&gt;</span></span><br><span class="line"><span class="comment">     | ...</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">     | <span class="doctag">NOTE:</span> If you just wanted to inject this configuration whenever someone set &#x27;target-env&#x27; to</span></span><br><span class="line"><span class="comment">     |       anything, you could just leave off the &lt;value/&gt; inside the activation-property.</span></span><br><span class="line"><span class="comment">     |</span></span><br><span class="line"><span class="comment">    &lt;profile&gt;</span></span><br><span class="line"><span class="comment">      &lt;id&gt;env-dev&lt;/id&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">      &lt;activation&gt;</span></span><br><span class="line"><span class="comment">        &lt;property&gt;</span></span><br><span class="line"><span class="comment">          &lt;name&gt;target-env&lt;/name&gt;</span></span><br><span class="line"><span class="comment">          &lt;value&gt;dev&lt;/value&gt;</span></span><br><span class="line"><span class="comment">        &lt;/property&gt;</span></span><br><span class="line"><span class="comment">      &lt;/activation&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">      &lt;properties&gt;</span></span><br><span class="line"><span class="comment">        &lt;tomcatPath&gt;/path/to/tomcat/instance&lt;/tomcatPath&gt;</span></span><br><span class="line"><span class="comment">      &lt;/properties&gt;</span></span><br><span class="line"><span class="comment">    &lt;/profile&gt;</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">profile</span>&gt;</span>     </span><br><span class="line">      <span class="tag">&lt;<span class="name">id</span>&gt;</span>JDK-1.8<span class="tag">&lt;/<span class="name">id</span>&gt;</span>       </span><br><span class="line">      <span class="tag">&lt;<span class="name">activation</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">activeByDefault</span>&gt;</span>true<span class="tag">&lt;/<span class="name">activeByDefault</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span>       </span><br><span class="line">      <span class="tag">&lt;/<span class="name">activation</span>&gt;</span>       </span><br><span class="line">      <span class="tag">&lt;<span class="name">properties</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span>       </span><br><span class="line">        <span class="tag">&lt;<span class="name">maven.compiler.compilerVersion</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.compilerVersion</span>&gt;</span>       </span><br><span class="line">      <span class="tag">&lt;/<span class="name">properties</span>&gt;</span>       </span><br><span class="line">    <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- activeProfiles</span></span><br><span class="line"><span class="comment">   | List of profiles that are active for all builds.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">  &lt;activeProfiles&gt;</span></span><br><span class="line"><span class="comment">    &lt;activeProfile&gt;alwaysActiveProfile&lt;/activeProfile&gt;</span></span><br><span class="line"><span class="comment">    &lt;activeProfile&gt;anotherAlwaysActiveProfile&lt;/activeProfile&gt;</span></span><br><span class="line"><span class="comment">  &lt;/activeProfiles&gt;</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/38850fb1/">NodeJs安装与环境配置与优化</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/eae3fb25/">win10上将chrome浏览器安装的D盘</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@Gentle Conspiracy</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.22.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img, .gallery img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://discuss.forever520.top/","commentCount":true,"pageview":false,"locale":{"placeholder":"有事可评论，无事更可评论！"},"emoji":["https://fastly.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs","https://unpkg.com/@waline/emojis@1.1.0/qq"],"requiredMeta":["nick"],"lang":"zh-CN","wordLimit":500,"pageSize":50}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <div class="iframe-container"><iframe frameborder="0" src="https://blog.ltyuanfang.cn/shizhong" width="100%" height="230px" scrolling="no"></iframe></div>
+  
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/clock5.css">
+  
+    <div style="height:60px;line-height:60px;font-size:14pt;font-weight:bold;text-align:center;color:pink;"><span id="hitokoto"><a href="#" id="hitokoto_text">"人生最大的遗憾,就是在最无能为力的时候遇到一个想要保护一生的人."</a></span><font color="pink">欢迎访问：<a href="https://al.forever520.top" target="_blank" >ZQ的资源站</a></font></div>
+  
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+  
+    <div style=" height:30px;line-height:30px;font-size:14pt;font-weight:bold;text-align:center;color:pink"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/yh3.js"></script>
+  
+    <div align="center"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://count.getloli.com/get/@LYcc?theme=rule34"></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/mytime2.js"></script>
+  
+    <script src="https://myhkw.cn/api/player/166996049082" id="myhk" key="166996049082" m="1"></script>
+  
+
+
+  </div>
+</body>
+</html>

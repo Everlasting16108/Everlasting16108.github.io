@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>SpringBoot实现前后端分离的跨域访问（Nginx） - ZQ的博客</title>
+
+  
+    <meta name="description" content="SpringBoot实现前后端分离的跨域访问（Nginx）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot实现前后端分离的跨域访问（Nginx）">
+<meta property="og:url" content="https://blog.forever520.top/a0a36649/index.html">
+<meta property="og:site_name" content="ZQ的博客">
+<meta property="og:description" content="SpringBoot实现前后端分离的跨域访问（Nginx）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-08T01:17:11.000Z">
+<meta property="article:modified_time" content="2023-11-07T13:41:06.432Z">
+<meta property="article:author" content="Gentle Conspiracy">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="SpringBoot,Nginx">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/hls.js@latest"></script>
+    
+      <script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/flv.js@latest"></script>
+    
+      <link rel="shortcut icon" type="image/x-icon" href="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" />
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures/imgs/kancss.css" >
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/my.css" >
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/ag.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/qiehuan6.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/tiao3.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/myconsole.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/mydebug.js"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ZQ的博客</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/favorites/">收藏</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">SpringBoot实现前后端分离的跨域访问（Nginx）</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="toc-text">下载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE"><span class="toc-text">修改配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8"><span class="toc-text">快速启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-VS-CORS"><span class="toc-text">Nginx VS  CORS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E8%B7%A8%E5%9F%9F%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-text">Nginx跨域实现过程:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Eproxy-pass-%E6%96%9C%E6%9D%A0%E2%80%9D-%E2%80%98-%E7%9A%84%E5%9D%91"><span class="toc-text">关于proxy_pass 斜杠”&#x2F;‘ 的坑</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/SpringBoot/">SpringBoot</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/SpringBoot/Nginx/">Nginx</a></div><div id="post-meta">
+    <span>发布于&nbsp;<time datetime="2022-12-08T01:17:11.000Z">2022-12-08</time></span>
+    
+    <span>更新于&nbsp;<time datetime="2023-11-07T13:41:06.432Z">2023-11-07</time></span>
+    </div></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>SpringBoot实现前后端分离的跨域访问（Nginx）</span></h1>
+<p>SpringBoot实现前后端分离的跨域访问（Nginx）</p>
+<span id="more"></span>
+
+<h1 id="序言"><a href="#序言" class="headerlink" title="序言"></a><strong>序言</strong></h1><p>使用Nginx反向代理，可以解决跨域无权和Session丢失的问题，十分方便。下面我们以前后端分离为案例，展开Nginx的使用教程。</p>
+<h1 id="配置和启动Nginx"><a href="#配置和启动Nginx" class="headerlink" title="配置和启动Nginx"></a><strong>配置和启动Nginx</strong></h1><h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><p>Nginx下载传送门：<a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">http://nginx.org/en/download.html</a></p>
+<p>注意事项：下载之后，记得解压到全英文路径，避免中文路径导致Nginx启动失败。</p>
+<h2 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h2><p>打开nginx.conf ，清空配置项，然后将下面的配置信息原封不动拷贝进去：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">worker_processes</span>  <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">include</span>       mime.types;</span><br><span class="line">    <span class="attribute">default_type</span>  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">sendfile</span>        <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">keepalive_timeout</span>  <span class="number">65</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#前端页面服务器</span></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="comment">#监听端口和域名</span></span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">7000</span>; </span><br><span class="line">        <span class="attribute">server_name</span>  localhost;</span><br><span class="line"></span><br><span class="line">        <span class="comment">#添加头部信息</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> Cookie <span class="variable">$http_cookie</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Server <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#添加拦截路径和代理地址</span></span><br><span class="line">        <span class="section">location</span> /api/ &#123;              </span><br><span class="line">               <span class="attribute">proxy_pass</span> http://localhost:8080/;  <span class="comment">#注意：使用代理地址时末尾记得加上斜杠&quot;/&quot;。      </span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#添加拦截路径和根目录</span></span><br><span class="line">        <span class="section">location</span> / &#123;</span><br><span class="line">               <span class="attribute">root</span>   html/hehe;  <span class="comment">#注意：使用&quot;/&quot;拦截全路径的时候记得放在最后。</span></span><br><span class="line">               <span class="attribute">index</span>  index.html index.htm;  <span class="comment">#index表示首页 </span></span><br><span class="line">        &#125;           </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="快速启动"><a href="#快速启动" class="headerlink" title="快速启动"></a>快速启动</h2><p>在Windows 环境中：</p>
+<ul>
+<li>快速启动Nginx：右键管理员模式，运行nginx.exe。</li>
+<li>快速关闭Nginx：在nginx主目录，添加关闭Nginx的命令。</li>
+</ul>
+<p>其中结束Nginx.bat的具体内容如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">taskkill</span> /f /im nginx.exe</span><br></pre></td></tr></table></figure>
+
+<h1 id="部署前端页面"><a href="#部署前端页面" class="headerlink" title="部署前端页面"></a><strong>部署前端页面</strong></h1><p>前后端分离后，可以直接将静态资源（例如前端页面）部署到Nginx的html目录。这里我们在$nginx_home&#x2F;html目录下创建一个名为hehe的文件夹，并添加一个页面（index.html）用于跨域访问测试，index页面内容如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Page Index<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>前台系统7000<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;info1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;info2&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;js/jquery.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        $.<span class="title function_">ajax</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">url</span>: <span class="string">&#x27;http://localhost:7000/api/user/login/verifyCode&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">type</span>: <span class="string">&quot;POST&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">success</span>: <span class="keyword">function</span> (<span class="params">data</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="comment">//1.获取验证码</span></span></span><br><span class="line"><span class="language-javascript">                $(<span class="string">&quot;#info1&quot;</span>).<span class="title function_">html</span>(<span class="string">&quot;跨域访问成功:verifyCode:&quot;</span> + data);</span></span><br><span class="line"><span class="language-javascript">                <span class="comment">//2.核对验证码</span></span></span><br><span class="line"><span class="language-javascript">                $.<span class="title function_">ajax</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">url</span>: <span class="string">&#x27;http://localhost:7000/api/user/login/checkVerifyCode&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">type</span>: <span class="string">&quot;POST&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">success</span>: <span class="keyword">function</span> (<span class="params">data</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                        $(<span class="string">&quot;#info2&quot;</span>).<span class="title function_">html</span>(<span class="string">&quot;跨域访问成功:checkVerifyCode:&quot;</span> + data);</span></span><br><span class="line"><span class="language-javascript">                    &#125;</span></span><br><span class="line"><span class="language-javascript">                &#125;);</span></span><br><span class="line"><span class="language-javascript">            &#125;,</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">error</span>: <span class="keyword">function</span> (<span class="params">data</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                $(<span class="string">&quot;#info1&quot;</span>).<span class="title function_">html</span>(<span class="string">&quot;跨域失败!!&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">        &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="启动后端系统"><a href="#启动后端系统" class="headerlink" title="启动后端系统"></a><strong>启动后端系统</strong></h1><p>首先在POM文件添加Web依赖，然后编写控制层，提供对外的访问接口。默认启动端口是8080.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.hehe;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/user/login/*&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringBootNginxApplication</span> &#123;</span><br><span class="line">    <span class="comment">//在拦截器打印访问URL</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> WebMvcConfigurer <span class="title function_">webMvcConfigurer</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">WebMvcConfigurer</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> &#123;</span><br><span class="line">                registry.addInterceptor(<span class="keyword">new</span> <span class="title class_">HandlerInterceptor</span>() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, <span class="meta">@Nullable</span> Exception ex)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                        <span class="keyword">if</span>(response.getStatus()/<span class="number">100</span>&gt;=<span class="number">4</span>)&#123;</span><br><span class="line">                            System.err.println(<span class="string">&quot;访问URL:&quot;</span>+request.getAttribute(WebUtils.ERROR_REQUEST_URI_ATTRIBUTE));</span><br><span class="line">                        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                            System.out.println(<span class="string">&quot;访问URL:&quot;</span>+request.getRequestURI());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//提供验证码</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;verifyCode&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">verifyCode</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">        request.getSession().setAttribute(<span class="string">&quot;verifyCode&quot;</span>, <span class="string">&quot;N7GX&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> request.getSession().getId() + <span class="string">&quot;:&quot;</span> + request.getSession().getAttribute(<span class="string">&quot;verifyCode&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//核对验证码</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;checkVerifyCode&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">checkVerifyCode</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> request.getSession().getId() + <span class="string">&quot;:&quot;</span> + request.getSession().getAttribute(<span class="string">&quot;verifyCode&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(SpringBootNginxApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="测试跨域访问"><a href="#测试跨域访问" class="headerlink" title="测试跨域访问"></a><strong>测试跨域访问</strong></h1><p>打开浏览器，访问 <a target="_blank" rel="noopener" href="http://localhost:7000/api/user/login/verifyCode">http://localhost:7000/api/user/login/verifyCode</a> ，可以看到后台获取的Session和第一次生成的验证码。如图:</p>
+<p>打开浏览器，访问 <a target="_blank" rel="noopener" href="http://localhost:7000/api/user/login/checkVerifyCode">http://localhost:7000/api/user/login/checkVerifyCode</a> ，可以看到后台获取的Session和第二次取出的验证码。</p>
+<p>由上图可以看到，跨域访问成功，并且Session没有丢失。</p>
+<h1 id="Nginx跨域总结"><a href="#Nginx跨域总结" class="headerlink" title="Nginx跨域总结"></a><strong>Nginx跨域总结</strong></h1><h2 id="Nginx-VS-CORS"><a href="#Nginx-VS-CORS" class="headerlink" title="Nginx VS  CORS"></a>Nginx VS  CORS</h2><p>简单来说，Nginx是间接跨域，而CORS则实现了直接跨域。Nginx的反向代理“欺诈了”浏览器，所以浏览器和服务器都认为是同源访问，所以Session不会丢失。</p>
+<p>（PS：如果发生跨域访问，服务器会每次都创建新的Session，所以才造成了前后端分离的Session丢失问题。） 至于CORS这种跨域机制的安全性和灵活性更高，但需要自己解决跨域访问Session丢失的问题，通常情况可以采用Session+Redis来实现Session共享。）</p>
+<h2 id="Nginx跨域实现过程"><a href="#Nginx跨域实现过程" class="headerlink" title="Nginx跨域实现过程:"></a>Nginx跨域实现过程:</h2><p>第1步：<a target="_blank" rel="noopener" href="http://localhost:7000/index.html">http://localhost:7000/index.html</a><br>第2步：<a target="_blank" rel="noopener" href="http://localhost:7000/api/user/login/verifyCode">http://localhost:7000/api/user/login/verifyCode</a></p>
+<p>第1步是打开页面，第2步是在这个页面发起AJAX请求，并且请求的域名端口均与当前访问页面相同，属于同源操作，所以浏览器不会报出跨域禁止的错误。</p>
+<p>第3步：<a target="_blank" rel="noopener" href="http://localhost:8080/user/login/verifyCode">http://localhost:8080/user/login/verifyCode</a></p>
+<p>第3步是本案例最为关键的一步，真正的跨域操作由Nginx的proxy_pass进行完成，并成功将验证码信息以代理的身份返回给浏览器，让浏览器处于同源访问后台的错觉。打开F12可以看到代理服务器：</p>
+<h2 id="关于proxy-pass-斜杠”-‘-的坑"><a href="#关于proxy-pass-斜杠”-‘-的坑" class="headerlink" title="关于proxy_pass 斜杠”&#x2F;‘ 的坑"></a>关于proxy_pass 斜杠”&#x2F;‘ 的坑</h2><p>通常情况下，建议大家在代理地址末尾加上”&#x2F;“ ，表示转发后就是proxy_pass直接拼接映射路径。</p>
+<p>Nginx代理效果：<br>转发前URL：<a target="_blank" rel="noopener" href="http://localhost:7000/api/user/login/verifyCode">http://localhost:7000/api/user/login/verifyCode</a><br>转发后URL：<a target="_blank" rel="noopener" href="http://localhost:8080/hehe/user/login/verifyCode">http://localhost:8080/hehe/user/login/verifyCode</a></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">7000</span>; </span><br><span class="line">    <span class="attribute">server_name</span>  localhost;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#正确示范: 末尾加斜杠&quot;/&quot;</span></span><br><span class="line">    <span class="section">location</span> /api/ &#123;              </span><br><span class="line">           <span class="attribute">proxy_pass</span> http://localhost:8080/hehe/; </span><br><span class="line">    &#125;</span><br><span class="line">                </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果代理地址末尾没有加斜杠的话，表示转发后也是proxy_pass直接拼接映射路径，但是，拼接的时候会少了个”&#x2F;“，这样会引发访问路径错误。</p>
+<p>Nginx代理效果：<br>转发前URL：<a target="_blank" rel="noopener" href="http://localhost:7000/api/user/login/verifyCode">http://localhost:7000/api/user/login/verifyCode</a><br>转发后URL：<a target="_blank" rel="noopener" href="http://localhost:8080/heheuser/login/verifyCode">http://localhost:8080/heheuser/login/verifyCode</a></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">7000</span>; </span><br><span class="line">    <span class="attribute">server_name</span>  localhost;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#错误示范: 末尾无斜杠</span></span><br><span class="line">    <span class="section">location</span> /api/ &#123;              </span><br><span class="line">           <span class="attribute">proxy_pass</span> http://localhost:8080/hehe; </span><br><span class="line">    &#125;</span><br><span class="line">                </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了更方便大家，看到在Nginx调整了proxy_pass有无斜杠的区别，楼主在控制台打印了每次请求访问的URL地址，这样更加清晰：</p>
+<p>具体做法：关闭Nginx 将代理地址修改为：proxy_pass <a target="_blank" rel="noopener" href="http://localhost:8080/hehe">http://localhost:8080/hehe</a> ，然后启动Nginx，在浏览器访问<a target="_blank" rel="noopener" href="http://localhost:7000/api/user/login/verifyCode">http://localhost:7000/api/user/login/verifyCode</a><br>，然后查看控制台打印的URL信息。清楚的看到了因为少了斜杠而导致拼接成错误路径，如下：</p>
+
+
+
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/b6639768/">2022个人总结</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/5b0774c7/">BigDecimal</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@Gentle Conspiracy</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.22.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img, .gallery img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://discuss.forever520.top/","commentCount":true,"pageview":false,"locale":{"placeholder":"有事可评论，无事更可评论！"},"emoji":["https://fastly.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs","https://unpkg.com/@waline/emojis@1.1.0/qq"],"requiredMeta":["nick"],"lang":"zh-CN","wordLimit":500,"pageSize":50}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <div class="iframe-container"><iframe frameborder="0" src="https://blog.ltyuanfang.cn/shizhong" width="100%" height="230px" scrolling="no"></iframe></div>
+  
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/clock5.css">
+  
+    <div style="height:60px;line-height:60px;font-size:14pt;font-weight:bold;text-align:center;color:pink;"><span id="hitokoto"><a href="#" id="hitokoto_text">"人生最大的遗憾,就是在最无能为力的时候遇到一个想要保护一生的人."</a></span><font color="pink">欢迎访问：<a href="https://al.forever520.top" target="_blank" >ZQ的资源站</a></font></div>
+  
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+  
+    <div style=" height:30px;line-height:30px;font-size:14pt;font-weight:bold;text-align:center;color:pink"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/yh3.js"></script>
+  
+    <div align="center"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://count.getloli.com/get/@LYcc?theme=rule34"></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/mytime2.js"></script>
+  
+    <script src="https://myhkw.cn/api/player/166996049082" id="myhk" key="166996049082" m="1"></script>
+  
+
+
+  </div>
+</body>
+</html>

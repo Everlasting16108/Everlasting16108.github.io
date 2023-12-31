@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>常见web攻击 - ZQ的博客</title>
+
+  
+    <meta name="description" content="搞Web开发离不开安全这个话题，确保网站或者网页应用的安全性，是每个开发人员都应该了解的事。本篇主要简单介绍在Web领域几种常见的攻击手段及Java Web中的预防方式。 XSS什么是XSSXSS攻击：跨站脚本攻击(Cross-Site Scripting)，为了不和层叠样式表(Cascading Style Sheets, CSS)的缩写混淆，故将跨站脚本攻击缩写为XSS。XSS是一种常见的we">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见web攻击">
+<meta property="og:url" content="https://blog.forever520.top/284985fb/index.html">
+<meta property="og:site_name" content="ZQ的博客">
+<meta property="og:description" content="搞Web开发离不开安全这个话题，确保网站或者网页应用的安全性，是每个开发人员都应该了解的事。本篇主要简单介绍在Web领域几种常见的攻击手段及Java Web中的预防方式。 XSS什么是XSSXSS攻击：跨站脚本攻击(Cross-Site Scripting)，为了不和层叠样式表(Cascading Style Sheets, CSS)的缩写混淆，故将跨站脚本攻击缩写为XSS。XSS是一种常见的we">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/a1c6ebf6de227e086d0289f34d8c5f76.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/69855b1538333659f26afc281feb4e30.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/138ad4f05b47533bf46904dc165167cc.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/e298f8ef08869557b8fb60034f06bb80.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/897d358f2677d053bb9555ff69d112ac.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/csrf-attack.gif">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/2ac5eab98780646c6c36dcdc98fa50c7.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/csrf-attack-fail-failure.gif">
+<meta property="article:published_time" content="2022-08-12T12:51:14.000Z">
+<meta property="article:modified_time" content="2023-11-07T13:41:06.435Z">
+<meta property="article:author" content="Gentle Conspiracy">
+<meta property="article:tag" content="web攻击">
+<meta property="article:tag" content="安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/a1c6ebf6de227e086d0289f34d8c5f76.png">
+  
+  
+  
+  <meta name="keywords" content="web攻击,安全">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/hls.js@latest"></script>
+    
+      <script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/flv.js@latest"></script>
+    
+      <link rel="shortcut icon" type="image/x-icon" href="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" />
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures/imgs/kancss.css" >
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/my.css" >
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/ag.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/qiehuan6.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/tiao3.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/myconsole.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/mydebug.js"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ZQ的博客</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/favorites/">收藏</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">常见web攻击</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFXSS"><span class="toc-text">什么是XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%A2%84%E9%98%B2XSS"><span class="toc-text">如何预防XSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSQL%E6%B3%A8%E5%85%A5"><span class="toc-text">什么是SQL注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%A2%84%E9%98%B2SQL%E6%B3%A8%E5%85%A5"><span class="toc-text">如何预防SQL注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFDDOS"><span class="toc-text">什么是DDOS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SYN%E6%94%BB%E5%87%BB"><span class="toc-text">SYN攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%A2%84%E9%98%B2DDOS"><span class="toc-text">如何预防DDOS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFCSRF"><span class="toc-text">什么是CSRF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSRF%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-text">CSRF的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9FCSRF%E6%94%BB%E5%87%BB"><span class="toc-text">模拟CSRF攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95A%E7%BD%91%E7%AB%99"><span class="toc-text">登录A网站</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%A0%E6%9C%89%E6%9D%83%E9%99%90%E5%88%A0%E9%99%A41%E5%8F%B7%E5%B8%96%E5%AD%90"><span class="toc-text">你有权限删除1号帖子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E6%9C%89CSRF%E6%94%BB%E5%87%BBA%E7%BD%91%E7%AB%99%E7%9A%84B%E7%BD%91%E7%AB%99"><span class="toc-text">登录有CSRF攻击A网站的B网站</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%A2%84%E9%98%B2CSRF%E6%94%BB%E5%87%BB"><span class="toc-text">如何预防CSRF攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87Synchronizer-Tokens"><span class="toc-text">通过Synchronizer Tokens</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash%E5%8A%A0%E5%AF%86cookie%E4%B8%ADcsrf-token%E5%80%BC"><span class="toc-text">Hash加密cookie中csrf_token值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%A0%E6%9C%89%E6%9D%83%E9%99%90%E5%88%A0%E9%99%A43%E5%8F%B7%E5%B8%96%E5%AD%90"><span class="toc-text">你有权限删除3号帖子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B%E7%BD%91%E7%AB%99%E7%9A%84%E4%BB%96%E5%B7%B2%E7%BB%8F%E6%B2%A1%E6%9C%89%E6%9D%83%E9%99%90%E4%BA%86"><span class="toc-text">B网站的他已经没有权限了</span></a></li></ol></li></ol></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/web%E6%94%BB%E5%87%BB/">web攻击</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/web%E6%94%BB%E5%87%BB/%E5%AE%89%E5%85%A8/">安全</a></div><div id="post-meta">
+    <span>发布于&nbsp;<time datetime="2022-08-12T12:51:14.000Z">2022-08-12</time></span>
+    
+    <span>更新于&nbsp;<time datetime="2023-11-07T13:41:06.435Z">2023-11-07</time></span>
+    </div></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>常见web攻击</span></h1>
+<p>搞Web开发离不开安全这个话题，确保网站或者网页应用的安全性，是每个开发人员都应该了解的事。本篇主要简单介绍在Web领域几种常见的攻击手段及Java Web中的预防方式。</p>
+<h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><h2 id="什么是XSS"><a href="#什么是XSS" class="headerlink" title="什么是XSS"></a>什么是XSS</h2><p>XSS攻击：跨站脚本攻击(Cross-Site Scripting)，为了不和层叠样式表(Cascading Style Sheets, CSS)的缩写混淆，故将跨站脚本攻击缩写为XSS。XSS是一种常见的web安全漏洞，它允许攻击者将恶意代码植入到提供给其它用户使用的页面中。不同于大多数攻击(一般只涉及攻击者和受害者)，XSS涉及到三方，即攻击者、客户端与Web应用。XSS的攻击目标是为了盗取存储在客户端的cookie或者其他网站用于识别客户端身份的敏感信息。一旦获取到合法用户的信息后，攻击者甚至可以假冒合法用户与网站进行交互。</p>
+<p>XSS通常可以分为两大类：</p>
+<ol>
+<li>存储型XSS，主要出现在让用户输入数据，供其他浏览此页的用户进行查看的地方，包括留言、评论、博客日志和各类表单等。应用程序从数据库中查询数据，在页面中显示出来，攻击者在相关页面输入恶意的脚本数据后，用户浏览此类页面时就可能受到攻击。这个流程简单可以描述为：<code>恶意用户的Html输入Web程序-&gt;进入数据库-&gt;Web程序-&gt;用户浏览器</code>。</li>
+<li>反射型XSS，主要做法是将脚本代码加入URL地址的请求参数里，请求参数进入程序后在页面直接输出，用户点击类似的恶意链接就可能受到攻击。</li>
+</ol>
+<p>比如说我写了一个网站，然后攻击者在上面发布了一个文章，内容是这样的 <code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>,如果我没有对他的内容进行处理，直接存储到数据库，那么下一次当其他用户访问他的这篇文章的时候，服务器从数据库读取后然后响应给客户端，浏览器执行了这段脚本，就会将cookie展现出来，这就是典型的存储型XSS。</p>
+<p>如图：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/a1c6ebf6de227e086d0289f34d8c5f76.png" alt="img"></p>
+<h2 id="如何预防XSS"><a href="#如何预防XSS" class="headerlink" title="如何预防XSS"></a>如何预防XSS</h2><p>答案很简单，坚决不要相信用户的任何输入，并过滤掉输入中的所有特殊字符。这样就能消灭绝大部分的XSS攻击。</p>
+<p>目前防御XSS主要有如下几种方式：</p>
+<ol>
+<li>过滤特殊字符<br> 避免XSS的方法之一主要是将用户所提供的内容进行过滤(如上面的<code>script</code>标签)。</li>
+<li>使用HTTP头指定类型<br> <code>w.Header().Set(&quot;Content-Type&quot;,&quot;text/javascript&quot;)</code><br> 这样就可以让浏览器解析javascript代码，而不会是html输出。</li>
+</ol>
+<h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><h2 id="什么是SQL注入"><a href="#什么是SQL注入" class="headerlink" title="什么是SQL注入"></a>什么是SQL注入</h2><p>攻击者成功的向服务器提交恶意的SQL查询代码，程序在接收后错误的将攻击者的输入作为查询语句的一部分执行，导致原始的查询逻辑被改变，额外的执行了攻击者精心构造的恶意代码。</p>
+<p>举例：<code>&#39; OR &#39;1&#39;=&#39;1</code></p>
+<p>这是最常见的 SQL注入攻击，当我们输如用户名 admin ，然后密码输如<code>&#39; OR &#39;1&#39;=1=&#39;1</code>的时候，我们在查询用户名和密码是否正确的时候，本来要执行的是<code>SELECT * FROM user WHERE username=&#39;&#39; and password=&#39;&#39;</code>,经过参数拼接后，会执行 SQL语句 <code>SELECT * FROM user WHERE username=&#39;&#39; and password=&#39;&#39; OR &#39;1&#39;=&#39;1&#39;</code>，这个时候1&#x3D;1是成立，自然就跳过验证了。<br>如下图所示：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/69855b1538333659f26afc281feb4e30.png" alt="img"></p>
+<p>但是如果再严重一点，密码输如的是<code>&#39;;DROP TABLE user;--</code>，那么 SQL命令为<code>SELECT * FROM user WHERE username=&#39;admin&#39; and password=&#39;&#39;;drop table user;--&#39;</code> 这个时候我们就直接把这个表给删除了。</p>
+<h2 id="如何预防SQL注入"><a href="#如何预防SQL注入" class="headerlink" title="如何预防SQL注入"></a>如何预防SQL注入</h2><ul>
+<li>在Java中，我们可以使用预编译语句(PreparedStatement)，这样的话即使我们使用 SQL语句伪造成参数，到了服务端的时候，这个伪造 SQL语句的参数也只是简单的字符，并不能起到攻击的作用。</li>
+<li>对进入数据库的特殊字符（<code>&#39;&quot;\尖括号&amp;*</code>;等）进行转义处理，或编码转换。</li>
+<li>在应用发布之前建议使用专业的SQL注入检测工具进行检测，以及时修补被发现的SQL注入漏洞。网上有很多这方面的开源工具，例如sqlmap、SQLninja等。</li>
+<li>避免网站打印出SQL错误信息，比如类型错误、字段不匹配等，把代码里的SQL语句暴露出来，以防止攻击者利用这些错误信息进行SQL注入。</li>
+</ul>
+<p>在上图展示中，使用了Java JDBC中的<code>PreparedStatement</code>预编译预防SQL注入，可以看到将所有输入都作为了字符串，避免执行恶意SQL。</p>
+<h1 id="DDOS"><a href="#DDOS" class="headerlink" title="DDOS"></a>DDOS</h1><h2 id="什么是DDOS"><a href="#什么是DDOS" class="headerlink" title="什么是DDOS"></a>什么是DDOS</h2><p>DDOS：分布式拒绝服务攻击（Distributed Denial of Service），简单说就是发送大量请求是使服务器瘫痪。DDos攻击是在DOS攻击基础上的，可以通俗理解，dos是单挑，而ddos是群殴，因为现代技术的发展，dos攻击的杀伤力降低，所以出现了DDOS，攻击者借助公共网络，将大数量的计算机设备联合起来，向一个或多个目标进行攻击。</p>
+<p>在技术角度上，DDoS攻击可以针对网络通讯协议的各层，手段大致有：TCP类的SYN Flood、ACK Flood，UDP类的Fraggle、Trinoo，DNS Query Flood，ICMP Flood，Slowloris类等等。一般会根据攻击目标的情况，针对性的把技术手法混合，以达到最低的成本最难防御的目的，并且可以进行合理的节奏控制，以及隐藏保护攻击资源。</p>
+<p>下面介绍一下TCP协议中的SYN攻击。</p>
+<h2 id="SYN攻击"><a href="#SYN攻击" class="headerlink" title="SYN攻击"></a>SYN攻击</h2><p>在三次握手过程中，服务器发送 <code>SYN-ACK</code> 之后，收到客户端的 <code>ACK</code> 之前的 TCP 连接称为半连接(half-open connect)。此时服务器处于 <code>SYN_RCVD</code> 状态。当收到 ACK 后，服务器才能转入 <code>ESTABLISHED</code> 状态.</p>
+<p><code>SYN</code>攻击指的是，攻击客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送<code>SYN</code>包，服务器回复确认包，并等待客户的确认。由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的<code>SYN</code>包将长时间占用未连接队列，正常的<code>SYN</code>请求被丢弃，导致目标系统运行缓慢，严重者会引起网络堵塞甚至系统瘫痪。</p>
+<h2 id="如何预防DDOS"><a href="#如何预防DDOS" class="headerlink" title="如何预防DDOS"></a>如何预防DDOS</h2><p>阿里巴巴的安全团队在实战中发现，DDoS 防御产品的核心是检测技术和清洗技术。检测技术就是检测网站是否正在遭受 DDoS 攻击，而清洗技术就是清洗掉异常流量。而检测技术的核心在于对业务深刻的理解，才能快速精确判断出是否真的发生了 DDoS 攻击。清洗技术对检测来讲，不同的业务场景下要求的粒度不一样。</p>
+<h1 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h1><h2 id="什么是CSRF"><a href="#什么是CSRF" class="headerlink" title="什么是CSRF"></a>什么是CSRF</h2><p>CSRF（Cross-site request forgery），中文名称：跨站请求伪造，也被称为：one click attack&#x2F;session riding，缩写为：CSRF&#x2F;XSRF。</p>
+<p>你这可以这么理解CSRF攻击：攻击者盗用了你的身份，以你的名义发送恶意请求。CSRF能够做的事情包括：以你名义发送邮件，发消息，盗取你的账号，甚至于购买商品，虚拟货币转账……造成的问题包括：个人隐私泄露以及财产安全。</p>
+<h2 id="CSRF的原理"><a href="#CSRF的原理" class="headerlink" title="CSRF的原理"></a>CSRF的原理</h2><p>下图简单阐述了CSRF攻击的思<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/138ad4f05b47533bf46904dc165167cc.png" alt="img"></p>
+<p>从上图可以看出，要完成一次CSRF攻击，受害者必须依次完成两个步骤：</p>
+<ol>
+<li>登录受信任网站A，并在本地生成Cookie。</li>
+<li>在不登出A的情况下，访问危险网站B。</li>
+</ol>
+<p>看到这里，你也许会说：“如果我不满足以上两个条件中的一个，我就不会受到CSRF的攻击”。是的，确实如此，但你不能保证以下情况不会发生：</p>
+<ol>
+<li>你不能保证你登录了一个网站后，不再打开一个tab页面并访问另外的网站。</li>
+<li>你不能保证你关闭浏览器了后，你本地的Cookie立刻过期，你上次的会话已经结束。（事实上，关闭浏览器不能结束一个会话，但大多数人都会错误的认为关闭浏览器就等于退出登录&#x2F;结束会话了……）</li>
+<li>上图中所谓的攻击网站，可能是一个存在其他漏洞的可信任的经常被人访问的网站。</li>
+</ol>
+<p>下面讲一讲java解决CSRF攻击的方式。</p>
+<h2 id="模拟CSRF攻击"><a href="#模拟CSRF攻击" class="headerlink" title="模拟CSRF攻击"></a>模拟CSRF攻击</h2><h3 id="登录A网站"><a href="#登录A网站" class="headerlink" title="登录A网站"></a>登录A网站</h3><p>用户名和密码都是admin。</p>
+<p><code>http://localhost:8081/login.html</code>:<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/e298f8ef08869557b8fb60034f06bb80.png" alt="img"></p>
+<h3 id="你有权限删除1号帖子"><a href="#你有权限删除1号帖子" class="headerlink" title="你有权限删除1号帖子"></a>你有权限删除1号帖子</h3><p><code>http://localhost:8081/deletePost.html</code>:<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/897d358f2677d053bb9555ff69d112ac.png" alt="img"></p>
+<h3 id="登录有CSRF攻击A网站的B网站"><a href="#登录有CSRF攻击A网站的B网站" class="headerlink" title="登录有CSRF攻击A网站的B网站"></a>登录有CSRF攻击A网站的B网站</h3><p><code>http://localhost:8082/deletePost.html</code>:</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/csrf-attack.gif" alt="img"></p>
+<p>明显看到B网站是8082端口，A网站是8081端口，但是B网站的删除2号帖子功能依然实现。</p>
+<h2 id="如何预防CSRF攻击"><a href="#如何预防CSRF攻击" class="headerlink" title="如何预防CSRF攻击"></a>如何预防CSRF攻击</h2><p>简单来说，CSRF 就是网站 A 对用户建立信任关系后，在网站 B 上利用这种信任关系，跨站点向网站 A 发起一些伪造的用户操作请求，以达到攻击的目的。</p>
+<p>而之所以可以完成攻击是因为B向A发起攻击的时候会把A网站的cookie带给A网站，也就是说cookie已经不安全了。</p>
+<h3 id="通过Synchronizer-Tokens"><a href="#通过Synchronizer-Tokens" class="headerlink" title="通过Synchronizer Tokens"></a>通过Synchronizer Tokens</h3><p>Synchronizer Tokens： 在表单里隐藏一个随机变化的 csrf_token csrf_token 提交到后台进行验证，如果验证通过则可以继续执行操作。这种情况有效的主要原因是网站 B 拿不到网站 A 表单里的 csrf_token</p>
+<p>这种方式的使用条件是PHP和JSP等。因为cookie已经不安全了，因此把csrf_token值存储在session中，然后每次表单提交时都从session取出来放到form表单的隐藏域中，这样B网站不可以得到这个存储到session中的值。</p>
+<p>下面是JSP的：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;random_form&quot;</span> <span class="attr">value</span>=&lt;%=<span class="string">random%</span>&gt;</span>&gt;<span class="tag">&lt;/<span class="name">input</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是我现在的情况是html，不是JSP，并不能动态的从session中取出csrf_token值。只能采用加密的方式了。</p>
+<h3 id="Hash加密cookie中csrf-token值"><a href="#Hash加密cookie中csrf-token值" class="headerlink" title="Hash加密cookie中csrf_token值"></a>Hash加密cookie中csrf_token值</h3><p>这可能是最简单的解决方案了，因为攻击者不能获得第三方的Cookie(理论上)，所以表单中的数据也就构造失败了。</p>
+<p>我采用的hash加密方法是JS实现Java的HashCode方法，得到hash值，这个比较简单。也可以采用其他的hash算法。</p>
+<p>前端向后台传递hash之后的csrf_token值和cookie中的csrf_token值，后台拿到cookie中的csrf_token值后得到hashCode值然后与前端传过来的值进行比较，一样则通过。</p>
+<h4 id="你有权限删除3号帖子"><a href="#你有权限删除3号帖子" class="headerlink" title="你有权限删除3号帖子"></a>你有权限删除3号帖子</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8081/deletePost.html</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/2ac5eab98780646c6c36dcdc98fa50c7.png" alt="img"></p>
+<h4 id="B网站的他已经没有权限了"><a href="#B网站的他已经没有权限了" class="headerlink" title="B网站的他已经没有权限了"></a>B网站的他已经没有权限了</h4><p>我们通过UserFilter.java给攻击者返回的是403错误，表示服务器理解用户客户端的请求但拒绝处理。</p>
+<p><code>http://localhost:8082/deletePost.html</code>:<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E5%9B%AD/%E5%B8%B8%E8%A7%81web%E6%94%BB%E5%87%BB/csrf-attack-fail-failure.gif" alt="img"></p>
+<p>攻击者不能删除4号帖子。</p>
+<p>前端代码：</p>
+<p>deletePost.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>deletePost<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;js/jquery.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">deletePost</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">var</span> url = <span class="string">&#x27;/post/&#x27;</span> + <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;postId&quot;</span>).<span class="property">value</span>;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">var</span> csrf_token = <span class="variable language_">document</span>.<span class="property">cookie</span>.<span class="title function_">replace</span>(<span class="regexp">/(?:(?:^|.*;\s*)csrf_token\s*\=\s*([^;]*).*$)|^.*$/</span>, <span class="string">&quot;$1&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;csrf_token=&#x27;</span> + csrf_token);</span></span><br><span class="line"><span class="language-javascript">            $.<span class="title function_">ajax</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="attr">type</span>: <span class="string">&quot;post&quot;</span>,<span class="comment">//请求方式</span></span></span><br><span class="line"><span class="language-javascript">                <span class="attr">url</span>: url,  <span class="comment">//发送请求地址</span></span></span><br><span class="line"><span class="language-javascript">                <span class="attr">timeout</span>: <span class="number">30000</span>,<span class="comment">//超时时间：30秒</span></span></span><br><span class="line"><span class="language-javascript">                <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="string">&quot;_method&quot;</span>: <span class="string">&quot;delete&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">                    <span class="string">&quot;csrf_token&quot;</span>: <span class="title function_">hash</span>(csrf_token) <span class="comment">// 对csrf_token进行hash加密</span></span></span><br><span class="line"><span class="language-javascript">                &#125;,</span></span><br><span class="line"><span class="language-javascript">                <span class="attr">dataType</span>: <span class="string">&quot;json&quot;</span>,<span class="comment">//设置返回数据的格式</span></span></span><br><span class="line"><span class="language-javascript">                <span class="attr">success</span>: <span class="keyword">function</span> (<span class="params">result</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                    <span class="keyword">if</span> (result.<span class="property">message</span> == <span class="string">&quot;success&quot;</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">                        $(<span class="string">&quot;#result&quot;</span>).<span class="title function_">text</span>(<span class="string">&quot;删除成功&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">                    &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="language-javascript">                        $(<span class="string">&quot;#result&quot;</span>).<span class="title function_">text</span>(<span class="string">&quot;删除失败&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">                    &#125;</span></span><br><span class="line"><span class="language-javascript">                &#125;,</span></span><br><span class="line"><span class="language-javascript">                <span class="attr">error</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123; <span class="comment">//请求出错的处理</span></span></span><br><span class="line"><span class="language-javascript">                    $(<span class="string">&quot;#result&quot;</span>).<span class="title function_">text</span>(<span class="string">&quot;请求出错&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">                &#125;</span></span><br><span class="line"><span class="language-javascript">            &#125;);</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// javascript的String到int(32位)的hash算法</span></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">hash</span>(<span class="params">str</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">var</span> hash = <span class="number">0</span>;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">if</span> (str.<span class="property">length</span> == <span class="number">0</span>) <span class="keyword">return</span> hash;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; str.<span class="property">length</span>; i++) &#123;</span></span><br><span class="line"><span class="language-javascript">                char = str.<span class="title function_">charCodeAt</span>(i);</span></span><br><span class="line"><span class="language-javascript">                hash = ((hash &lt;&lt; <span class="number">5</span>) - hash) + char;</span></span><br><span class="line"><span class="language-javascript">                hash = hash &amp; hash; <span class="comment">// Convert to 32bit integer</span></span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">return</span> hash;</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>删除帖子<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">帖子编号 ： <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">id</span>=<span class="string">&quot;postId&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">&quot;deletePost();&quot;</span>&gt;</span>deletePost<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;result&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>后台代码：</p>
+<p>UserInterceptor.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.morethink.interceptor;</span><br><span class="line"><span class="keyword">import</span> cn.morethink.util.JsonUtil;</span><br><span class="line"><span class="keyword">import</span> cn.morethink.util.Result;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.HandlerInterceptor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.ModelAndView;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.Cookie;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> 李文浩</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2018/1/4</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserInterceptor</span> <span class="keyword">implements</span> <span class="title class_">HandlerInterceptor</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">method</span> <span class="operator">=</span> request.getMethod();</span><br><span class="line">        System.out.println(method);</span><br><span class="line">        <span class="keyword">if</span> (method.equalsIgnoreCase(<span class="string">&quot;POST&quot;</span>) || method.equalsIgnoreCase(<span class="string">&quot;DELETE&quot;</span>)</span><br><span class="line">                || method.equalsIgnoreCase(<span class="string">&quot;PUT&quot;</span>)) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">csrf_token</span> <span class="operator">=</span> request.getParameter(<span class="string">&quot;csrf_token&quot;</span>);</span><br><span class="line">            Cookie[] cookies = request.getCookies();</span><br><span class="line">            <span class="keyword">if</span> (cookies != <span class="literal">null</span> &amp;&amp; cookies.length &gt; <span class="number">0</span> &amp;&amp; csrf_token != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (Cookie cookie : cookies) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (cookie.getName().equals(<span class="string">&quot;csrf_token&quot;</span>)) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (Integer.valueOf(csrf_token) == cookie.getValue().hashCode()) &#123;</span><br><span class="line">                            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">Result</span> <span class="variable">result</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Result</span>(<span class="string">&quot;403&quot;</span>, <span class="string">&quot;你还想攻击我??????????&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="type">PrintWriter</span> <span class="variable">out</span> <span class="operator">=</span> response.getWriter();</span><br><span class="line">        out.write(JsonUtil.toJson(result));</span><br><span class="line">        out.close();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：</p>
+<ol>
+<li>cookie必须要设置PATH才可以生效，否则在下一次请求的时候无法带给服务器。</li>
+<li>Spring Boot 出现启动找不到主类的问题时可以mvn clean一下。</li>
+<li>Filter设置response.sendError(403)在Spring Boot没有效果。</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>上面一共提到了4种攻击方式，分别是XSS攻击（关键是脚本，利用恶意脚本发起攻击），SQL注入（关键是通过用SQL语句伪造参数发出攻击），DDOS攻击（关键是发出大量请求，最后令服务器崩溃），CSRF攻击（关键是借助本地cookie进行认证，伪造发送请求）。</p>
+
+
+
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/57005deb/">Docker学习1</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/c147cc06/">十种常见的web攻击</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@Gentle Conspiracy</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.22.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img, .gallery img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://discuss.forever520.top/","commentCount":true,"pageview":false,"locale":{"placeholder":"有事可评论，无事更可评论！"},"emoji":["https://fastly.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs","https://unpkg.com/@waline/emojis@1.1.0/qq"],"requiredMeta":["nick"],"lang":"zh-CN","wordLimit":500,"pageSize":50}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <div class="iframe-container"><iframe frameborder="0" src="https://blog.ltyuanfang.cn/shizhong" width="100%" height="230px" scrolling="no"></iframe></div>
+  
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/clock5.css">
+  
+    <div style="height:60px;line-height:60px;font-size:14pt;font-weight:bold;text-align:center;color:pink;"><span id="hitokoto"><a href="#" id="hitokoto_text">"人生最大的遗憾,就是在最无能为力的时候遇到一个想要保护一生的人."</a></span><font color="pink">欢迎访问：<a href="https://al.forever520.top" target="_blank" >ZQ的资源站</a></font></div>
+  
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+  
+    <div style=" height:30px;line-height:30px;font-size:14pt;font-weight:bold;text-align:center;color:pink"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/yh3.js"></script>
+  
+    <div align="center"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://count.getloli.com/get/@LYcc?theme=rule34"></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/mytime2.js"></script>
+  
+    <script src="https://myhkw.cn/api/player/166996049082" id="myhk" key="166996049082" m="1"></script>
+  
+
+
+  </div>
+</body>
+</html>

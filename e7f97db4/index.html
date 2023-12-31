@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>基于Vue+SpringBoot的支付宝支付功能 - ZQ的博客</title>
+
+  
+    <meta name="description" content="基于Vue+SpringBoot的支付宝支付功能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Vue+SpringBoot的支付宝支付功能">
+<meta property="og:url" content="https://blog.forever520.top/e7f97db4/index.html">
+<meta property="og:site_name" content="ZQ的博客">
+<meta property="og:description" content="基于Vue+SpringBoot的支付宝支付功能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/20200218144135273.gif">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RvbXdpbGRib2Fy,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RvbXdpbGRib2Fy,size_16,color_FFFFFF,t_70-16666650159931.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RvbXdpbGRib2Fy,size_16,color_FFFFFF,t_70-16666650159932.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RvbXdpbGRib2Fy,size_16,color_FFFFFF,t_70-16666650159933.png">
+<meta property="article:published_time" content="2022-10-25T02:28:59.000Z">
+<meta property="article:modified_time" content="2023-11-07T13:41:06.433Z">
+<meta property="article:author" content="Gentle Conspiracy">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="支付宝支付">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/20200218144135273.gif">
+  
+  
+  
+  <meta name="keywords" content="SpringBoot,Vue,支付宝支付">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/hls.js@latest"></script>
+    
+      <script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/flv.js@latest"></script>
+    
+      <link rel="shortcut icon" type="image/x-icon" href="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" />
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures/imgs/kancss.css" >
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/my.css" >
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/ag.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/qiehuan6.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/tiao3.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/myconsole.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/mydebug.js"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ZQ的博客</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/favorites/">收藏</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">基于Vue+SpringBoot的支付宝支付功能</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E6%BC%94%E7%A4%BA%E8%AF%B4%E6%98%8E"><span class="toc-text">1、演示说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1%E3%80%81%E5%85%88%E6%9D%A5%E7%9C%8B%E7%9C%8B%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C%EF%BC%9A"><span class="toc-text">1-1、先来看看最终效果：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1%E3%80%81%E8%AF%B4%E6%98%8E"><span class="toc-text">2-1、说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-text">2、环境准备</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1%E3%80%81%E6%88%91%E4%BB%AC%E8%A6%81%E5%8E%BB%E6%94%AF%E4%BB%98%E7%94%B3%E8%AF%B7%E4%B8%80%E4%B8%AA%E6%B2%99%E7%AE%B1%E6%B5%8B%E8%AF%95%E8%B4%A6%E5%8F%B7-https-openhome-alipay-com-platform-appDaily-htm-tab-info"><span class="toc-text">2-1、我们要去支付申请一个沙箱测试账号 https:&#x2F;&#x2F;openhome.alipay.com&#x2F;platform&#x2F;appDaily.htm?tab&#x3D;info</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2%E3%80%81%E7%94%9F%E6%88%90-RSA2%EF%BC%8C%E8%BF%99%E9%87%8C%E6%98%AF%E9%9C%80%E8%A6%81%E4%B8%8B%E8%BD%BD%E4%B8%80%E4%B8%AA%E6%94%AF%E4%BB%98%E5%AE%9D%E6%8F%90%E4%BE%9B%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF-https-docs-open-alipay-com-291-105971"><span class="toc-text">2-2、生成 RSA2，这里是需要下载一个支付宝提供的客户端 https:&#x2F;&#x2F;docs.open.alipay.com&#x2F;291&#x2F;105971</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3%E3%80%81%E4%B8%8B%E8%BD%BD-%E3%80%90%E6%B2%99%E7%AE%B1%E7%89%88%E6%94%AF%E4%BB%98%E5%AE%9D%E3%80%91"><span class="toc-text">2-3、下载 【沙箱版支付宝】</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">3、环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1%EF%BC%9A%E5%89%8D%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">3-1：前端环境搭建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2%EF%BC%9A%E5%90%8E%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">3-2：后端环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AlipayConfig"><span class="toc-text">AlipayConfig</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PayController"><span class="toc-text">PayController</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AlipayBean"><span class="toc-text">AlipayBean</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PayService"><span class="toc-text">PayService</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PayServiceImpl"><span class="toc-text">PayServiceImpl</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Alipay"><span class="toc-text">Alipay</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#alipay-properties"><span class="toc-text">alipay.properties</span></a></li></ol></li></ol></li></ol></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/SpringBoot/">SpringBoot</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/SpringBoot/Vue/">Vue</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/SpringBoot/Vue/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">支付宝支付</a></div><div id="post-meta">
+    <span>发布于&nbsp;<time datetime="2022-10-25T02:28:59.000Z">2022-10-25</time></span>
+    
+    <span>更新于&nbsp;<time datetime="2023-11-07T13:41:06.433Z">2023-11-07</time></span>
+    </div></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>基于Vue+SpringBoot的支付宝支付功能</span></h1>
+<p>基于Vue+SpringBoot的支付宝支付功能</p>
+<span id="more"></span>
+
+<h2 id="1、演示说明"><a href="#1、演示说明" class="headerlink" title="1、演示说明"></a>1、演示说明</h2><h4 id="1-1、先来看看最终效果："><a href="#1-1、先来看看最终效果：" class="headerlink" title="1-1、先来看看最终效果："></a>1-1、先来看看最终效果：</h4><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/20200218144135273.gif" alt="在这里插入图片描述"></p>
+<h4 id="2-1、说明"><a href="#2-1、说明" class="headerlink" title="2-1、说明"></a>2-1、说明</h4><p>  这并不是真正的支付，是支付宝提供的一个测试。之所以没有使用正式的支付，是因为支付宝（微信也是）不提供个人开发者功能，只有商户审核通过了才可以有这个功能。所有这里使用的是沙箱测试。</p>
+<h2 id="2、环境准备"><a href="#2、环境准备" class="headerlink" title="2、环境准备"></a>2、环境准备</h2><h4 id="2-1、我们要去支付申请一个沙箱测试账号-https-openhome-alipay-com-platform-appDaily-htm-tab-info"><a href="#2-1、我们要去支付申请一个沙箱测试账号-https-openhome-alipay-com-platform-appDaily-htm-tab-info" class="headerlink" title="2-1、我们要去支付申请一个沙箱测试账号 https://openhome.alipay.com/platform/appDaily.htm?tab=info"></a>2-1、我们要去支付申请一个沙箱测试账号 <a target="_blank" rel="noopener" href="https://openhome.alipay.com/platform/appDaily.htm?tab=info">https://openhome.alipay.com/platform/appDaily.htm?tab=info</a></h4><h4 id="2-2、生成-RSA2，这里是需要下载一个支付宝提供的客户端-https-docs-open-alipay-com-291-105971"><a href="#2-2、生成-RSA2，这里是需要下载一个支付宝提供的客户端-https-docs-open-alipay-com-291-105971" class="headerlink" title="2-2、生成 RSA2，这里是需要下载一个支付宝提供的客户端 https://docs.open.alipay.com/291/105971"></a>2-2、生成 RSA2，这里是需要下载一个支付宝提供的客户端 <a target="_blank" rel="noopener" href="https://docs.open.alipay.com/291/105971">https://docs.open.alipay.com/291/105971</a></h4><h4 id="2-3、下载-【沙箱版支付宝】"><a href="#2-3、下载-【沙箱版支付宝】" class="headerlink" title="2-3、下载 【沙箱版支付宝】"></a>2-3、下载 【沙箱版支付宝】</h4><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RvbXdpbGRib2Fy,size_16,color_FFFFFF,t_70.png" alt="在这里插入图片描述"></p>
+<p>因为这是测试环境，所有所有的金额都是测试。不可以使用我们正式的支付宝。</p>
+<h2 id="3、环境搭建"><a href="#3、环境搭建" class="headerlink" title="3、环境搭建"></a>3、环境搭建</h2><h4 id="3-1：前端环境搭建"><a href="#3-1：前端环境搭建" class="headerlink" title="3-1：前端环境搭建"></a>3-1：前端环境搭建</h4><p><strong>1、首先你只需要写一个这样的页面就好了，提供四个参数</strong><br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RvbXdpbGRib2Fy,size_16,color_FFFFFF,t_70-16666650159931.png" alt="在这里插入图片描述"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">$axios</span>.<span class="title function_">post</span>(<span class="string">&#x27;url&#x27;</span>,<span class="variable language_">this</span>.<span class="property">payInfo</span>).<span class="title function_">then</span>(<span class="function"><span class="params">resp</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="comment">// 添加之前先删除一下，如果单页面，页面不刷新，添加进去的内容会一直保留在页面中，二次调用form表单会出错</span></span><br><span class="line">                <span class="keyword">const</span> divForm = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&#x27;div&#x27;</span>)</span><br><span class="line">                <span class="keyword">if</span> (divForm.<span class="property">length</span>) &#123;</span><br><span class="line">                    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">removeChild</span>(divForm[<span class="number">0</span>])</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">const</span> div = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;div&#x27;</span>)</span><br><span class="line">                div.<span class="property">innerHTML</span> = resp.<span class="property">data</span> <span class="comment">// data就是接口返回的form 表单字符串</span></span><br><span class="line">                <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(div)</span><br><span class="line">                <span class="variable language_">document</span>.<span class="property">forms</span>[<span class="number">0</span>].<span class="title function_">setAttribute</span>(<span class="string">&#x27;target&#x27;</span>, <span class="string">&#x27;_blank&#x27;</span>) <span class="comment">// 新开窗口跳转</span></span><br><span class="line">                <span class="variable language_">document</span>.<span class="property">forms</span>[<span class="number">0</span>].<span class="title function_">submit</span>()</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RvbXdpbGRib2Fy,size_16,color_FFFFFF,t_70-16666650159932.png" alt="在这里插入图片描述"></p>
+<h4 id="3-2：后端环境搭建"><a href="#3-2：后端环境搭建" class="headerlink" title="3-2：后端环境搭建"></a>3-2：后端环境搭建</h4><p><strong>主要的pom</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 支付宝支付jar包 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alipay.sdk<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>alipay-sdk-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- fastjson --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.48<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RvbXdpbGRib2Fy,size_16,color_FFFFFF,t_70-16666650159933.png" alt="在这里插入图片描述"></p>
+<h5 id="AlipayConfig"><a href="#AlipayConfig" class="headerlink" title="AlipayConfig"></a>AlipayConfig</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.xdx97.framework.config;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.PropertySource;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 配置文件读取</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> 小道仙</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020年2月18日</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span></span><br><span class="line"><span class="meta">@PropertySource(&quot;classpath:config/alipay.properties&quot;)</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AlipayConfig</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 应用ID,您的APPID，收款账号既是您的APPID对应支付宝账号</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String appId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 商户私钥，您的PKCS8格式RSA2私钥</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String privateKey;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 支付宝公钥,</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String publicKey;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 服务器异步通知页面路径需http://格式的完整路径，不能加?id=123这类自定义参数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String notifyUrl;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String returnUrl;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 签名方式</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String signType;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 字符编码格式</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String charset;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 支付宝网关</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String gatewayUrl;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 支付宝网关</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String logPath;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="PayController"><a href="#PayController" class="headerlink" title="PayController"></a>PayController</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.alipay.api.AlipayApiException;</span><br><span class="line"><span class="keyword">import</span> com.xdx97.framework.service.PayService;</span><br><span class="line"><span class="keyword">import</span> com.xdx97.framework.entitys.pay.AlipayBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 支付宝沙箱测试</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> 小道仙</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020年2月17日</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PayController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> PayService payService;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 阿里支付</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> tradeNo</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> subject</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> amount</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> body</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> AlipayApiException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping(value = &quot;order/alipay&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">alipay</span><span class="params">(String outTradeNo, String subject, String totalAmount, String body)</span> <span class="keyword">throws</span> AlipayApiException &#123;</span><br><span class="line">        <span class="type">AlipayBean</span> <span class="variable">alipayBean</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlipayBean</span>();</span><br><span class="line">        alipayBean.setOut_trade_no(outTradeNo);</span><br><span class="line">        alipayBean.setSubject(subject);</span><br><span class="line">        alipayBean.setTotal_amount(totalAmount);</span><br><span class="line">        alipayBean.setBody(body);</span><br><span class="line">        <span class="keyword">return</span> payService.aliPay(alipayBean);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="AlipayBean"><a href="#AlipayBean" class="headerlink" title="AlipayBean"></a>AlipayBean</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 支付实体对象</span></span><br><span class="line"><span class="comment"> * 根据支付宝接口协议，其中的属性名，必须使用下划线，不能修改</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> 小道仙</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020年2月18日</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AlipayBean</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 商户订单号，必填</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String out_trade_no;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 订单名称，必填</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String subject;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 付款金额，必填</span></span><br><span class="line"><span class="comment">     * 根据支付宝接口协议，必须使用下划线</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String total_amount;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 商品描述，可空</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String body;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 超时时间参数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String timeout_express= <span class="string">&quot;10m&quot;</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 产品编号</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String product_code= <span class="string">&quot;FAST_INSTANT_TRADE_PAY&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getOut_trade_no</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> out_trade_no;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setOut_trade_no</span><span class="params">(String out_trade_no)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.out_trade_no = out_trade_no;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getSubject</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> subject;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setSubject</span><span class="params">(String subject)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.subject = subject;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getTotal_amount</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> total_amount;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTotal_amount</span><span class="params">(String total_amount)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.total_amount = total_amount;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getBody</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> body;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setBody</span><span class="params">(String body)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.body = body;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getTimeout_express</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> timeout_express;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTimeout_express</span><span class="params">(String timeout_express)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.timeout_express = timeout_express;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getProduct_code</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> product_code;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setProduct_code</span><span class="params">(String product_code)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.product_code = product_code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="PayService"><a href="#PayService" class="headerlink" title="PayService"></a>PayService</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.alipay.api.AlipayApiException;</span><br><span class="line"><span class="keyword">import</span> com.xdx97.framework.entitys.pay.AlipayBean;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 支付服务</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Louis</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> Dec 12, 2018</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">PayService</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 支付宝支付接口</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> alipayBean</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> AlipayApiException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String <span class="title function_">aliPay</span><span class="params">(AlipayBean alipayBean)</span> <span class="keyword">throws</span> AlipayApiException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="PayServiceImpl"><a href="#PayServiceImpl" class="headerlink" title="PayServiceImpl"></a>PayServiceImpl</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.xdx97.framework.service.PayService;</span><br><span class="line"><span class="keyword">import</span> com.xdx97.framework.utils.pay.Alipay;</span><br><span class="line"><span class="keyword">import</span> com.xdx97.framework.entitys.pay.AlipayBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.AlipayApiException;</span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PayServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">PayService</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> Alipay alipay;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">aliPay</span><span class="params">(AlipayBean alipayBean)</span> <span class="keyword">throws</span> AlipayApiException &#123;</span><br><span class="line">        <span class="keyword">return</span> alipay.pay(alipayBean);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Alipay"><a href="#Alipay" class="headerlink" title="Alipay"></a>Alipay</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.xdx97.framework.config.AlipayConfig;</span><br><span class="line"><span class="keyword">import</span> com.xdx97.framework.entitys.pay.AlipayBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.AlipayApiException;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.AlipayClient;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.DefaultAlipayClient;</span><br><span class="line"><span class="keyword">import</span> com.alipay.api.request.AlipayTradePagePayRequest;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 支付宝支付接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> 小道仙</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020年2月18日</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Alipay</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AlipayConfig alipayConfig;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 支付接口</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> alipayBean</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> AlipayApiException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">pay</span><span class="params">(AlipayBean alipayBean)</span> <span class="keyword">throws</span> AlipayApiException &#123;</span><br><span class="line">        <span class="comment">// 1、获得初始化的AlipayClient</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">serverUrl</span> <span class="operator">=</span> alipayConfig.getGatewayUrl();</span><br><span class="line">        <span class="type">String</span> <span class="variable">appId</span> <span class="operator">=</span> alipayConfig.getAppId();</span><br><span class="line">        <span class="type">String</span> <span class="variable">privateKey</span> <span class="operator">=</span> alipayConfig.getPrivateKey();</span><br><span class="line">        <span class="type">String</span> <span class="variable">format</span> <span class="operator">=</span> <span class="string">&quot;json&quot;</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">charset</span> <span class="operator">=</span> alipayConfig.getCharset();</span><br><span class="line">        <span class="type">String</span> <span class="variable">alipayPublicKey</span> <span class="operator">=</span> alipayConfig.getPublicKey();</span><br><span class="line">        <span class="type">String</span> <span class="variable">signType</span> <span class="operator">=</span> alipayConfig.getSignType();</span><br><span class="line">        <span class="type">String</span> <span class="variable">returnUrl</span> <span class="operator">=</span> alipayConfig.getReturnUrl();</span><br><span class="line">        <span class="type">String</span> <span class="variable">notifyUrl</span> <span class="operator">=</span> alipayConfig.getNotifyUrl();</span><br><span class="line">        <span class="type">AlipayClient</span> <span class="variable">alipayClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultAlipayClient</span>(serverUrl, appId, privateKey, format, charset, alipayPublicKey, signType);</span><br><span class="line">        <span class="comment">// 2、设置请求参数</span></span><br><span class="line">        <span class="type">AlipayTradePagePayRequest</span> <span class="variable">alipayRequest</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AlipayTradePagePayRequest</span>();</span><br><span class="line">        <span class="comment">// 页面跳转同步通知页面路径</span></span><br><span class="line">        alipayRequest.setReturnUrl(returnUrl);</span><br><span class="line">        <span class="comment">// 服务器异步通知页面路径</span></span><br><span class="line">        alipayRequest.setNotifyUrl(notifyUrl);</span><br><span class="line">        <span class="comment">// 封装参数</span></span><br><span class="line">        alipayRequest.setBizContent(JSON.toJSONString(alipayBean));</span><br><span class="line">        <span class="comment">// 3、请求支付宝进行付款，并获取支付结果</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> alipayClient.pageExecute(alipayRequest).getBody();</span><br><span class="line">        <span class="comment">// 返回付款信息</span></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="alipay-properties"><a href="#alipay-properties" class="headerlink" title="alipay.properties"></a>alipay.properties</h5><p><strong>下面需要配置你的沙箱账号和，密钥</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 应用ID,您的APPID，收款账号既是您的APPID对应支付宝账号</span></span><br><span class="line"><span class="attr">appId</span>: <span class="string"></span></span><br><span class="line"><span class="comment"># 商户私钥，您的PKCS8格式RSA2私钥</span></span><br><span class="line"><span class="attr">privateKey</span>: <span class="string"></span></span><br><span class="line"><span class="comment"># 支付宝公钥,查看地址：https://openhome.com/platform/keyManage.htm 对应APPID下的支付宝公钥。</span></span><br><span class="line"><span class="attr">publicKey</span>: <span class="string"></span></span><br><span class="line"><span class="comment"># 服务器异步通知页面路径需http://格式的完整路径，不能加?id=123这类自定义参数</span></span><br><span class="line"><span class="attr">notifyUrl</span>: <span class="string"></span></span><br><span class="line"><span class="comment"># 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数</span></span><br><span class="line"><span class="attr">returnUrl</span>: <span class="string">http://localhost:8080/#/pay/success</span></span><br><span class="line"><span class="comment"># 签名方式</span></span><br><span class="line"><span class="attr">signType</span>: <span class="string">RSA2</span></span><br><span class="line"><span class="comment"># 字符编码格式</span></span><br><span class="line"><span class="attr">charset</span>: <span class="string">utf-8</span></span><br><span class="line"><span class="comment"># 支付宝网关</span></span><br><span class="line"><span class="attr">gatewayUrl</span>: <span class="string">https://openapi.alipaydev.com/gateway.do</span></span><br><span class="line"><span class="comment"># 支付宝日志</span></span><br><span class="line"><span class="attr">logPath</span>: <span class="string">&quot;C:\\&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/cd25f69d/">SQL Server中的内置函数</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/aa578cc6/">SpringBoot+Vue实现微信扫码支付、退款功能</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@Gentle Conspiracy</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.22.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img, .gallery img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://discuss.forever520.top/","commentCount":true,"pageview":false,"locale":{"placeholder":"有事可评论，无事更可评论！"},"emoji":["https://fastly.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs","https://unpkg.com/@waline/emojis@1.1.0/qq"],"requiredMeta":["nick"],"lang":"zh-CN","wordLimit":500,"pageSize":50}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <div class="iframe-container"><iframe frameborder="0" src="https://blog.ltyuanfang.cn/shizhong" width="100%" height="230px" scrolling="no"></iframe></div>
+  
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/clock5.css">
+  
+    <div style="height:60px;line-height:60px;font-size:14pt;font-weight:bold;text-align:center;color:pink;"><span id="hitokoto"><a href="#" id="hitokoto_text">"人生最大的遗憾,就是在最无能为力的时候遇到一个想要保护一生的人."</a></span><font color="pink">欢迎访问：<a href="https://al.forever520.top" target="_blank" >ZQ的资源站</a></font></div>
+  
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+  
+    <div style=" height:30px;line-height:30px;font-size:14pt;font-weight:bold;text-align:center;color:pink"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/yh3.js"></script>
+  
+    <div align="center"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://count.getloli.com/get/@LYcc?theme=rule34"></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/mytime2.js"></script>
+  
+    <script src="https://myhkw.cn/api/player/166996049082" id="myhk" key="166996049082" m="1"></script>
+  
+
+
+  </div>
+</body>
+</html>

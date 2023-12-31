@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>如何用Java几分钟处理完30亿个数据? - ZQ的博客</title>
+
+  
+    <meta name="description" content="如何用Java几分钟处理完30亿个数据?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何用Java几分钟处理完30亿个数据?">
+<meta property="og:url" content="https://blog.forever520.top/a233dc51/index.html">
+<meta property="og:site_name" content="ZQ的博客">
+<meta property="og:description" content="如何用Java几分钟处理完30亿个数据?">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/641.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661691.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661692.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661693.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661694.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661705.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661706.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661707.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661708.png">
+<meta property="article:published_time" content="2022-10-25T01:40:19.000Z">
+<meta property="article:modified_time" content="2023-11-07T13:41:06.434Z">
+<meta property="article:author" content="Gentle Conspiracy">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/641.png">
+  
+  
+  
+  <meta name="keywords" content="学习,Java,SpringBoot,数据">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/hls.js@latest"></script>
+    
+      <script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/flv.js@latest"></script>
+    
+      <link rel="shortcut icon" type="image/x-icon" href="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" />
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures/imgs/kancss.css" >
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/my.css" >
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/ag.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/qiehuan6.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/tiao3.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/myconsole.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/mydebug.js"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ZQ的博客</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/favorites/">收藏</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">如何用Java几分钟处理完30亿个数据?</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%9A%E5%AD%90%E7%BA%BF%E7%A8%8B%E5%88%86%E5%89%B2%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">2) 多子线程分割字符串</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/Java/">Java</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/Java/SpringBoot/">SpringBoot</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/Java/SpringBoot/%E6%95%B0%E6%8D%AE/">数据</a></div><div id="post-meta">
+    <span>发布于&nbsp;<time datetime="2022-10-25T01:40:19.000Z">2022-10-25</time></span>
+    
+    <span>更新于&nbsp;<time datetime="2023-11-07T13:41:06.434Z">2023-11-07</time></span>
+    </div></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>如何用Java几分钟处理完30亿个数据?</span></h1>
+<p>如何用Java几分钟处理完30亿个数据?</p>
+<span id="more"></span>
+
+<p><strong>1. 场景说明</strong></p>
+<p>现有一个 10G 文件的数据，里面包含了 18-70 之间的整数，分别表示 18-70 岁的人群数量统计。假设年龄范围分布均匀，分别表示系统中所有用户的年龄数，找出重复次数最多的那个数，现有一台内存为 4G、2 核 CPU 的电脑，请写一个算法实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">23,31,42,19,60,30,36,........</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 模拟数据</strong></p>
+<p>Java 中一个整数占 4 个字节，模拟 10G 为 30 亿左右个数据， 采用追加模式写入 10G 数据到硬盘里。</p>
+<p>每 100 万个记录写一行，大概 4M 一行，10G 大概 2500 行数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> bigdata;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Desc</span>:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span>: bingbing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2022/5/4 0004 19:05</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GenerateData</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">generateRandomData</span><span class="params">(<span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> random.nextInt(end - start + <span class="number">1</span>) + start;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 产生10G的 1-1000的数据在D盘</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">generateData</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;D:\\ User.dat&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!file.exists()) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                file.createNewFile();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> <span class="number">18</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">end</span> <span class="operator">=</span> <span class="number">70</span>;</span><br><span class="line">        <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        <span class="type">BufferedWriter</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">OutputStreamWriter</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file, <span class="literal">true</span>)));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">long</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; Integer.MAX_VALUE * <span class="number">1.7</span>; i++) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">data</span> <span class="operator">=</span> generateRandomData(start, end) + <span class="string">&quot;,&quot;</span>;</span><br><span class="line">            bos.write(data);</span><br><span class="line">            <span class="comment">// 每100万条记录成一行，100万条数据大概4M</span></span><br><span class="line">            <span class="keyword">if</span> (i % <span class="number">1000000</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                bos.write(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;写入完成! 共花费时间:&quot;</span> + (System.currentTimeMillis() - startTime) / <span class="number">1000</span> + <span class="string">&quot; s&quot;</span>);</span><br><span class="line">        bos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">GenerateData</span> <span class="variable">generateData</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GenerateData</span>();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            generateData.generateData();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码调整参数执行 2 次，凑 10G 数据在 D 盘 User.dat 文件里：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/641.png" alt="图片"></p>
+<p>准备好 10G 数据后，接着写如何处理这些数据。</p>
+<p><strong>3. 场景分析</strong></p>
+<p>10G 的数据比当前拥有的运行内存大的多，不能全量加载到内存中读取。如果采用全量加载，那么内存会直接爆掉，只能按行读取。Java 中的 bufferedReader 的 readLine() 按行读取文件里的内容。</p>
+<p><strong>4. 读取数据</strong></p>
+<p>首先，我们写一个方法单线程读完这 30 亿数据需要多少时间，每读 100 行打印一次：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">readData</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(FILE_NAME), <span class="string">&quot;utf-8&quot;</span>));</span><br><span class="line">    String line;</span><br><span class="line">    <span class="type">long</span> <span class="variable">start</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 按行读取</span></span><br><span class="line">        <span class="keyword">if</span> (count % <span class="number">100</span> == <span class="number">0</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;读取100行,总耗时间: &quot;</span> + (System.currentTimeMillis() - start) / <span class="number">1000</span> + <span class="string">&quot; s&quot;</span>);</span><br><span class="line">            System.gc();</span><br><span class="line">        &#125;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">    running = <span class="literal">false</span>;</span><br><span class="line">    br.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按行读完 10G 的数据大概 20 秒，基本每 100 行，1 亿多数据花 1 秒，速度还挺快。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661691.png" alt="图片"></p>
+<p><strong>5. 处理数据</strong></p>
+<p><strong>5.1 思路一</strong></p>
+<p>通过单线程处理，初始化一个 countMap，key 为年龄，value 为出现的次数。将每行读取到的数据按照 “,” 进行分割，然后获取到的每一项进行保存到 countMap 里。如果存在，那么值 key 的 value+1。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> start; i &lt;= end; i++) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">File</span> <span class="variable">subFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(dir + <span class="string">&quot;\\&quot;</span> + i + <span class="string">&quot;.dat&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!file.exists()) &#123;</span><br><span class="line">            subFile.createNewFile();</span><br><span class="line">        &#125;</span><br><span class="line">        countMap.computeIfAbsent(i + <span class="string">&quot;&quot;</span>, integer -&gt; <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(<span class="number">0</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>单线程读取并统计 countMap：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">splitLine</span><span class="params">(String lineData)</span> &#123;</span><br><span class="line">    String[] arr = lineData.split(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (String str : arr) &#123;</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isEmpty(str)) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        countMap.computeIfAbsent(str, s -&gt; <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(<span class="number">0</span>)).getAndIncrement();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过比较找出年龄数最多的年龄并打印出来：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">findMostAge</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">Integer</span> <span class="variable">targetValue</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">targetKey</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    Iterator&lt;Map.Entry&lt;String, AtomicInteger&gt;&gt; entrySetIterator = countMap.entrySet().iterator();</span><br><span class="line">    <span class="keyword">while</span> (entrySetIterator.hasNext()) &#123;</span><br><span class="line">        Map.Entry&lt;String, AtomicInteger&gt; entry = entrySetIterator.next();</span><br><span class="line">        <span class="type">Integer</span> <span class="variable">value</span> <span class="operator">=</span> entry.getValue().get();</span><br><span class="line">        <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">        <span class="keyword">if</span> (value &gt; targetValue) &#123;</span><br><span class="line">            targetValue = value;</span><br><span class="line">            targetKey = key;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">&quot;数量最多的年龄为:&quot;</span> + targetKey + <span class="string">&quot;数量为：&quot;</span> + targetValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试结果</strong></p>
+<p>总共花了 3 分钟读取完并统计完所有数据。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661692.png" alt="图片"></p>
+<p>内存消耗为 2G-2.5G，CPU 利用率太低，只向上浮动了 20%-25% 之间。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661693.png" alt="图片"></p>
+<p>要想提高 CPU 利用率，那么可以使用多线程去处理。</p>
+<p>下面我们使用多线程去解决这个 CPU 利用率低的问题。</p>
+<p><strong>5.2 思路二：分治法</strong></p>
+<p>使用多线程去消费读取到的数据。采用生产者、消费者模式去消费数据。</p>
+<p>因为在读取的时候是比较快的，单线程的数据处理能力比较差。因此思路一的性能阻塞在取数据的一方且又是同步操作，导致整个链路的性能会变的很差。<br>所谓分治法就是分而治之，也就是说将海量数据分割处理。 根据 CPU 的能力初始化 n 个线程，每一个线程去消费一个队列，这样线程在消费的时候不会出现抢占队列的问题。同时为了保证线程安全和生产者消费者模式的完整，采用阻塞队列。Java 中提供了 LinkedBlockingQueue 就是一个阻塞队列。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661694.png" alt="图片"></p>
+<p><strong>初始化阻塞队列</strong></p>
+<p>使用 LinkedList 创建一个阻塞队列列表：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;LinkedBlockingQueue&lt;String&gt;&gt; blockQueueLists = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>在 static 块里初始化阻塞队列的数量和单个阻塞队列的容量为 256。</p>
+<p>上面讲到了 30 亿数据大概 2500 行，按行塞到队列里。20 个队列，那么每个队列 125 个，因此可以容量可以设计为 256 即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//每个队列容量为256</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; threadNums; i++) &#123;</span><br><span class="line">    blockQueueLists.add(<span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;&gt;(<span class="number">256</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>生产者</strong></p>
+<p>为了实现负载的功能，首先定义一个 count 计数器，用来记录行数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">AtomicLong</span> <span class="variable">count</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicLong</span>(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>按照行数来计算队列的下标 long index&#x3D;count.get()%threadNums。 </p>
+<p>下面算法就实现了对队列列表中的队列进行轮询的投放：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SplitData</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">splitLine</span><span class="params">(String lineData)</span> &#123;</span><br><span class="line">        String[] arr = lineData.split(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (String str : arr) &#123;</span><br><span class="line">            <span class="keyword">if</span> (StringUtils.isEmpty(str)) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">long</span> <span class="variable">index</span> <span class="operator">=</span> count.get() % threadNums;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 如果满了就阻塞</span></span><br><span class="line">                blockQueueLists.get((<span class="type">int</span>) index).put(str);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            count.getAndIncrement();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>消费者</strong><br><strong>1) 队列线程私有化</strong></p>
+<p>消费方在启动线程的时候根据 index 去获取到指定的队列，这样就实现了队列的线程私有化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">startConsumer</span><span class="params">()</span> <span class="keyword">throws</span> FileNotFoundException, UnsupportedEncodingException &#123;</span><br><span class="line">    <span class="comment">//如果共用一个队列，那么线程不宜过多，容易出现抢占现象</span></span><br><span class="line">    System.out.println(<span class="string">&quot;开始消费...&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; threadNums; i++) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> i;</span><br><span class="line">        <span class="comment">// 每一个线程负责一个 queue，这样不会出现线程抢占队列的情况。</span></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (consumerRunning) &#123;</span><br><span class="line">                startConsumer = <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> blockQueueLists.get(index).take();</span><br><span class="line">                    countNum(str);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-多子线程分割字符串"><a href="#2-多子线程分割字符串" class="headerlink" title="2) 多子线程分割字符串"></a><strong>2) 多子线程分割字符串</strong></h3><p>由于从队列中多到的字符串非常的庞大，如果又是用单线程调用 split(“,”) 去分割，那么性能同样会阻塞在这个地方。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按照 arr的大小，运用多线程分割字符串</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">countNum</span><span class="params">(String str)</span> &#123;</span><br><span class="line">    <span class="type">int</span>[] arr = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>];</span><br><span class="line">    arr[<span class="number">1</span>] = str.length() / <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">String</span> <span class="variable">innerStr</span> <span class="operator">=</span> SplitData.splitStr(str, arr);</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            String[] strArray = innerStr.split(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">            <span class="keyword">for</span> (String s : strArray) &#123;</span><br><span class="line">                countMap.computeIfAbsent(s, s1 -&gt; <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(<span class="number">0</span>)).getAndIncrement();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3) 分割字符串算法</strong></p>
+<p>分割时从 0 开始，按照等分的原则，将字符串 n 等份，每一个线程分到一份。</p>
+<p>用一个 arr 数组的 arr[0] 记录每次的分割开始位置。arr[1] 记录每次分割的结束位置，如果遇到的开始的字符不为 “,” 那么就 startIndex-1。如果结束的位置不为 “,” 那么将 endIndex 向后移一位。</p>
+<p>如果 endIndex 超过了字符串的最大长度，那么就把最后一个字符赋值给 arr[1]。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 按照 x坐标 来分割 字符串，如果切到的字符不为“，”， 那么把坐标向前或者向后移动一位。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> line</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> arr  存放x1,x2坐标</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">splitStr</span><span class="params">(String line, <span class="type">int</span>[] arr)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">startIndex</span> <span class="operator">=</span> arr[<span class="number">0</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">endIndex</span> <span class="operator">=</span> arr[<span class="number">1</span>];</span><br><span class="line">    <span class="type">char</span> <span class="variable">start</span> <span class="operator">=</span> line.charAt(startIndex);</span><br><span class="line">    <span class="type">char</span> <span class="variable">end</span> <span class="operator">=</span> line.charAt(endIndex);</span><br><span class="line">    <span class="keyword">if</span> ((startIndex == <span class="number">0</span> || start == <span class="string">&#x27;,&#x27;</span>) &amp;&amp; end == <span class="string">&#x27;,&#x27;</span>) &#123;</span><br><span class="line">        arr[<span class="number">0</span>] = endIndex + <span class="number">1</span>;</span><br><span class="line">        arr[<span class="number">1</span>] = arr[<span class="number">0</span>] + line.length() / <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">if</span> (arr[<span class="number">1</span>] &gt;= line.length()) &#123;</span><br><span class="line">            arr[<span class="number">1</span>] = line.length() - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> line.substring(startIndex, endIndex);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (startIndex != <span class="number">0</span> &amp;&amp; start != <span class="string">&#x27;,&#x27;</span>) &#123;</span><br><span class="line">        startIndex = startIndex - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (end != <span class="string">&#x27;,&#x27;</span>) &#123;</span><br><span class="line">        endIndex = endIndex + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[<span class="number">0</span>] = startIndex;</span><br><span class="line">    arr[<span class="number">1</span>] = endIndex;</span><br><span class="line">    <span class="keyword">if</span> (arr[<span class="number">1</span>] &gt;= line.length()) &#123;</span><br><span class="line">        arr[<span class="number">1</span>] = line.length() - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> splitStr(line, arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试结果</strong></p>
+<p>内存和 CPU 初始占用大小：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661705.png" alt="图片"></p>
+<p>启动后，运行时内存稳定在 11.7G，CPU 稳定利用在 90% 以上。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661706.png" alt="图片"></p>
+<p>总耗时由 180 秒缩减到 103 秒，效率提升 75%，得到的结果也与单线程处理的一致。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661707.png" alt="图片"></p>
+<h1 id="6-遇到的问题"><a href="#6-遇到的问题" class="headerlink" title="6. 遇到的问题"></a><strong>6. 遇到的问题</strong></h1><p>如果在运行了的时候，发现 GC 突然罢工不工作了，有可能是 JVM 的堆中存在的垃圾太多，没回收导致内存的突增。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/221025/640-16666621661708.png" alt="图片"></p>
+<p><strong>解决方法</strong></p>
+<p>在读取一定数量后，可以让主线程暂停几秒，手动调用 GC。</p>
+<p><strong>提示</strong>: 本 demo 的线程创建都是手动创建的，实际开发中使用的是线程池。</p>
+
+
+
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/5df02e95/">过滤器和拦截器的5个区别！</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/5de8058a/">把剩饭做成盲盒卖，消费者和商家能双赢吗？</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@Gentle Conspiracy</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.22.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img, .gallery img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://discuss.forever520.top/","commentCount":true,"pageview":false,"locale":{"placeholder":"有事可评论，无事更可评论！"},"emoji":["https://fastly.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs","https://unpkg.com/@waline/emojis@1.1.0/qq"],"requiredMeta":["nick"],"lang":"zh-CN","wordLimit":500,"pageSize":50}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <div class="iframe-container"><iframe frameborder="0" src="https://blog.ltyuanfang.cn/shizhong" width="100%" height="230px" scrolling="no"></iframe></div>
+  
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/clock5.css">
+  
+    <div style="height:60px;line-height:60px;font-size:14pt;font-weight:bold;text-align:center;color:pink;"><span id="hitokoto"><a href="#" id="hitokoto_text">"人生最大的遗憾,就是在最无能为力的时候遇到一个想要保护一生的人."</a></span><font color="pink">欢迎访问：<a href="https://al.forever520.top" target="_blank" >ZQ的资源站</a></font></div>
+  
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+  
+    <div style=" height:30px;line-height:30px;font-size:14pt;font-weight:bold;text-align:center;color:pink"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/yh3.js"></script>
+  
+    <div align="center"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://count.getloli.com/get/@LYcc?theme=rule34"></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/mytime2.js"></script>
+  
+    <script src="https://myhkw.cn/api/player/166996049082" id="myhk" key="166996049082" m="1"></script>
+  
+
+
+  </div>
+</body>
+</html>

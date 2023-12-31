@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 7.0.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>换掉FastDFS，SpringBoot整合MinIO实现分布式文件服务，真香！ - ZQ的博客</title>
+
+  
+    <meta name="description" content="FastDFS 陪伴我走过了很多年，当年大学的时候就是用 FastDFS 为项目搭建的分布式存储服务。 不过，随着技术的进步。FastDFS 正在慢慢被大家放弃，这玩意好用是好用，部署起来也是真的麻烦，臃肿。 今天分享一个非常不错且开源的分布式存储组件 MinIO，比 FastDFS 更简单易用，并且功能也更加强大！  什么是 MinIO？Minio 是个基于 Golang 编写的开源对象存储套件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="换掉FastDFS，SpringBoot整合MinIO实现分布式文件服务，真香！">
+<meta property="og:url" content="https://blog.forever520.top/9fdae502/index.html">
+<meta property="og:site_name" content="ZQ的博客">
+<meta property="og:description" content="FastDFS 陪伴我走过了很多年，当年大学的时候就是用 FastDFS 为项目搭建的分布式存储服务。 不过，随着技术的进步。FastDFS 正在慢慢被大家放弃，这玩意好用是好用，部署起来也是真的麻烦，臃肿。 今天分享一个非常不错且开源的分布式存储组件 MinIO，比 FastDFS 更简单易用，并且功能也更加强大！  什么是 MinIO？Minio 是个基于 Golang 编写的开源对象存储套件">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178431.jpeg">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178432.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178443.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178444.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178445.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178446.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178457.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178458.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178459.png">
+<meta property="og:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-166141811784510.png">
+<meta property="article:published_time" content="2022-08-25T09:00:36.000Z">
+<meta property="article:modified_time" content="2023-11-07T13:41:06.434Z">
+<meta property="article:author" content="Gentle Conspiracy">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="FastDFS">
+<meta property="article:tag" content="MinIO">
+<meta property="article:tag" content="文件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640.png">
+  
+  
+  
+  <meta name="keywords" content="SpringBoot,FastDFS,MinIO,文件">
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.4.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/hls.js@latest"></script>
+    
+      <script type="text/javascript" src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/flv.js@latest"></script>
+    
+      <link rel="shortcut icon" type="image/x-icon" href="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" />
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures/imgs/kancss.css" >
+    
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/my.css" >
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/ag.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/qiehuan6.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/tiao3.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/myconsole.js"></script>
+    
+      <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/html/js/mydebug.js"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://pic.forever520.top/i/1/202312/uLuOlGS4OA/202204172211451.jpg" onerror="javascript:this.classList.add('error');this.src='https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.9/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ZQ的博客</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/favorites/">收藏</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">换掉FastDFS，SpringBoot整合MinIO实现分布式文件服务，真香！</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-MinIO%EF%BC%9F"><span class="toc-text">什么是 MinIO？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">1. 应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%89%B9%E7%82%B9"><span class="toc-text">2. 特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-MinIO"><span class="toc-text">安装 MinIO</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%8E%B7%E5%8F%96%E9%95%9C%E5%83%8F"><span class="toc-text">1. 获取镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%90%AF%E5%8A%A8%E9%95%9C%E5%83%8F"><span class="toc-text">2. 启动镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E6%93%8D%E4%BD%9C"><span class="toc-text">3. 图形界面操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Boot-%E6%95%B4%E5%90%88-MinIO-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6"><span class="toc-text">Spring Boot 整合 MinIO 上传文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%8E%B7%E5%8F%96-accessKey-%E5%92%8C-secretKey"><span class="toc-text">1. 获取 accessKey 和 secretKey</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-text">2. 添加依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE"><span class="toc-text">3. 添加配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%96%B0%E5%BB%BA%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E6%8E%A5%E5%8F%A3"><span class="toc-text">4. 新建上传文件接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B5%8B%E8%AF%95"><span class="toc-text">5. 测试</span></a></li></ol></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div class="left"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/SpringBoot/">SpringBoot</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/SpringBoot/FastDFS/">FastDFS</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/SpringBoot/FastDFS/MinIO/">MinIO</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/SpringBoot/FastDFS/MinIO/%E6%96%87%E4%BB%B6/">文件</a></div><div id="post-meta">
+    <span>发布于&nbsp;<time datetime="2022-08-25T09:00:36.000Z">2022-08-25</time></span>
+    
+    <span>更新于&nbsp;<time datetime="2023-11-07T13:41:06.434Z">2023-11-07</time></span>
+    </div></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>换掉FastDFS，SpringBoot整合MinIO实现分布式文件服务，真香！</span></h1>
+<p>FastDFS 陪伴我走过了很多年，当年大学的时候就是用 FastDFS 为项目搭建的分布式存储服务。</p>
+<p>不过，随着技术的进步。FastDFS 正在慢慢被大家放弃，这玩意好用是好用，部署起来也是真的麻烦，臃肿。</p>
+<p>今天分享一个非常不错且开源的分布式存储组件 MinIO，比 FastDFS 更简单易用，并且功能也更加强大！</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640.png" alt="图片"></p>
+<h2 id="什么是-MinIO？"><a href="#什么是-MinIO？" class="headerlink" title="什么是 MinIO？"></a>什么是 MinIO？</h2><p>Minio 是个基于 Golang 编写的开源对象存储套件，基于 Apache License v2.0 开源协议，虽然轻量，却拥有着不错的性能。它兼容亚马逊 S3 云存储服务接口。可以很简单的和其他应用结合使用，例如 NodeJS、Redis、MySQL 等。</p>
+<h3 id="1-应用场景"><a href="#1-应用场景" class="headerlink" title="1. 应用场景"></a>1. 应用场景</h3><p>MinIO 的应用场景除了可以作为私有云的对象存储服务来使用，也可以作为云对象存储的网关层，无缝对接 <code>Amazon S3</code> 或者 <code>MicroSoft Azure</code> 。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178431.jpeg" alt="图片"></p>
+<h3 id="2-特点"><a href="#2-特点" class="headerlink" title="2. 特点"></a>2. 特点</h3><ol>
+<li><strong>高性能</strong>：作为一款高性能存储，在标准硬件条件下，其读写速率分别可以达到 <code>55Gb/s</code> 和 <code>35Gb/s</code>。并且 MinIO 支持一个对象文件可以是任意大小，从几 kb 到最大 5T 不等。</li>
+<li><strong>可扩展</strong>：不同 MinIO 集群可以组成联邦，并形成一个全局的命名空间，并且支持跨越多个数据中心。</li>
+<li><strong>云原生</strong>：容器化、基于 K8S 的编排、多租户支持。</li>
+<li><strong>Amazon S3 兼容</strong>：使用 Amazon S3 v2 &#x2F; v4 API。可以使用 Minio SDK，Minio Client，AWS SDK 和 AWS CLI 访问 Minio 服务器。</li>
+<li><strong>SDK 支持</strong>：GO SDK：<a target="_blank" rel="noopener" href="https://github.com/minio/minio-go%EF%BC%8CJavaSDK%EF%BC%9Ahttps://github.com/minio/minio-java%EF%BC%8CPythonSDK%EF%BC%9Ahttps://github.com/minio/minio-py">https://github.com/minio/minio-go，JavaSDK：https://github.com/minio/minio-java，PythonSDK：https://github.com/minio/minio-py</a></li>
+<li><strong>图形化界面</strong>：有操作页面</li>
+<li><strong>支持纠删码</strong>：MinIO 使用纠删码、Checksum 来防止硬件错误和静默数据污染。在最高冗余度配置下，即使丢失 1&#x2F;2 的磁盘也能恢复数据。</li>
+</ol>
+<blockquote>
+<p>功能很强大，本文只是抛砖引玉，有兴趣的朋友自己去探索吧~</p>
+</blockquote>
+<h2 id="安装-MinIO"><a href="#安装-MinIO" class="headerlink" title="安装 MinIO"></a>安装 MinIO</h2><p>安装非常简单，笔者这里使用 Docker 安装，步骤如下：</p>
+<h3 id="1-获取镜像"><a href="#1-获取镜像" class="headerlink" title="1. 获取镜像"></a>1. 获取镜像</h3><p>执行命令如下：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull minio/minio</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-启动镜像"><a href="#2-启动镜像" class="headerlink" title="2. 启动镜像"></a>2. 启动镜像</h3><p>执行命令如下：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span><span class="language-bash"> -p 9000:9000 -p 9001:9001 --name minio -d --restart=always -e <span class="string">&quot;MINIO_ACCESS_KEY=admin&quot;</span> -e <span class="string">&quot;MINIO_SECRET_KEY=admin&quot;</span> -v /home/data:/data -v /home/config:/root/.minio minio/minio server --console-address <span class="string">&quot;:9000&quot;</span> --address <span class="string">&quot;:9001&quot;</span> /data</span></span><br></pre></td></tr></table></figure>
+
+<p>命令解释如下：</p>
+<ul>
+<li><strong>-p</strong>：<strong>9000</strong>是图形界面的端口，<strong>9001</strong>是 API 的端口，在使用 SDK 连接需要用到</li>
+<li><strong>MINIO_ACCESS_KEY</strong>：指定图形界面的用户名</li>
+<li><strong>MINIO_SECRET_KEY</strong>：指定图形界面的密码</li>
+</ul>
+<p>按照上述两个步骤启动成功即可。</p>
+<h3 id="3-图形界面操作"><a href="#3-图形界面操作" class="headerlink" title="3. 图形界面操作"></a>3. 图形界面操作</h3><p>安装成功后直接访问地址：<strong>http:&#x2F;ip:9000&#x2F;login</strong>，如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178432.png" alt="图片"></p>
+<p>输入用户名和密码登录成功后，如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178443.png" alt="图片"></p>
+<p>菜单很多，这里就不再详细介绍了，笔者这里直接在<strong>Buckets</strong>菜单中创建一个桶为<strong>test</strong>，如下图：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178444.png" alt="图片"></p>
+<p>并且设置这个桶的隐私规则为<strong>public</strong>，如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178445.png" alt="图片"></p>
+<blockquote>
+<p>MinIO 到此已经安装设置成功了</p>
+</blockquote>
+<h2 id="Spring-Boot-整合-MinIO-上传文件"><a href="#Spring-Boot-整合-MinIO-上传文件" class="headerlink" title="Spring Boot 整合 MinIO 上传文件"></a><strong>Spring Boot 整合 MinIO 上传文件</strong></h2><p>虽然 MinIO 在图形界面提供了手动上传的操作，但是也可以通过 SDK 的方式去上传，下面介绍一下 Spring Boot 整合 MinIO 上传文件。</p>
+<h3 id="1-获取-accessKey-和-secretKey"><a href="#1-获取-accessKey-和-secretKey" class="headerlink" title="1. 获取 accessKey 和 secretKey"></a>1. 获取 accessKey 和 secretKey</h3><p>这里的<strong>accessKey</strong>和<strong>secretKey</strong>并不是图形界面登录名和密码，获取很简单，直接在图形界面中操作，如下图：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178446.png" alt="图片"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178457.png" alt="图片"></p>
+<h3 id="2-添加依赖"><a href="#2-添加依赖" class="headerlink" title="2. 添加依赖"></a>2. 添加依赖</h3><p>添加 MinIO 的依赖，如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.minio<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>minio<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-添加配置"><a href="#3-添加配置" class="headerlink" title="3. 添加配置"></a>3. 添加配置</h3><p>这里笔者对 SDK 做了简单的封装，案例源码都会提供，下面只列出部分代码。</p>
+<p>在<strong>aplication.yml</strong>配置中添加 MInIO 相关的配置，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">minio:</span><br><span class="line">  # 访问的url</span><br><span class="line">  endpoint: http:<span class="comment">//192.168.47.148</span></span><br><span class="line">  # API的端口</span><br><span class="line">  port: <span class="number">9001</span></span><br><span class="line">  # 秘钥</span><br><span class="line">  accessKey: HQGWFYLWGC6FVJ0CQFOG</span><br><span class="line">  secretKey: pUGhAgQhZDxJaLmN3uz65YX7Bb3FyLdLglBvcCr1</span><br><span class="line">  secure: <span class="literal">false</span></span><br><span class="line">  bucket-name: test # 桶名 我这是给出了一个默认桶名</span><br><span class="line">  image-size: <span class="number">10485760</span> # 我在这里设定了 图片文件的最大大小</span><br><span class="line">  file-size: <span class="number">1073741824</span> # 此处是设定了文件的最大大小</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-新建上传文件接口"><a href="#4-新建上传文件接口" class="headerlink" title="4. 新建上传文件接口"></a>4. 新建上传文件接口</h3><p>笔者这里定义了一个上传文件接口，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> 公众号：码猿技术专栏</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/minio&quot;)</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MinioController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span>  MinioService minioService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/upload&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">uploadFile</span><span class="params">(MultipartFile file, String bucketName)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">fileType</span> <span class="operator">=</span> FileTypeUtils.getFileType(file);</span><br><span class="line">        <span class="keyword">if</span> (fileType != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> minioService.putObject(file, bucketName, fileType);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;不支持的文件格式。请确认格式,重新上传！！！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-测试"><a href="#5-测试" class="headerlink" title="5. 测试"></a>5. 测试</h3><p>上述 4 个步骤已经整合完成了，下面直接调用接口上传一张图片试一下，如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178458.png" alt="图片">图片</p>
+<p>接口返回的<strong>URL</strong>就是文件的访问地址，直接输入浏览器访问即可。</p>
+<p>在 MInIO 中也可以看到存储的文件，如下图：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-16614181178459.png" alt="图片"></p>
+<p>如果你需要分享给别人，也可以手动分享，有效期是 7 天，一旦过了这个有效期将会失效，如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://www.everlasting520.top/d/tblog/%E5%9B%BE%E7%89%87/blog/%E5%8D%9A%E5%AE%A2/%E5%85%AC%E4%BC%97%E5%8F%B7/%E6%8D%A2%E6%8E%89FastDFS%EF%BC%8CSpringBoot%E6%95%B4%E5%90%88MinIO%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%EF%BC%8C%E7%9C%9F%E9%A6%99%EF%BC%81/640-166141811784510.png" alt="图片"></p>
+<p>源码地址：<a target="_blank" rel="noopener" href="https://github.com/chenjiabing666/JavaFamily/tree/master/springboot-minio">https://github.com/chenjiabing666/JavaFamily/tree/master/springboot-minio</a> 。</p>
+
+
+
+<div class="article-footer reveal fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/d22a2606/">SpringSecurity从入门到精通</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/347cd178/">使用Druid轻松实现加密！</a></div></section></div>
+
+
+
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@Gentle Conspiracy</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.22.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.22.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img, .gallery img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://discuss.forever520.top/","commentCount":true,"pageview":false,"locale":{"placeholder":"有事可评论，无事更可评论！"},"emoji":["https://fastly.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs","https://unpkg.com/@waline/emojis@1.1.0/qq"],"requiredMeta":["nick"],"lang":"zh-CN","wordLimit":500,"pageSize":50}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <div class="iframe-container"><iframe frameborder="0" src="https://blog.ltyuanfang.cn/shizhong" width="100%" height="230px" scrolling="no"></iframe></div>
+  
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/Everlasting16108/html/css/clock5.css">
+  
+    <div style="height:60px;line-height:60px;font-size:14pt;font-weight:bold;text-align:center;color:pink;"><span id="hitokoto"><a href="#" id="hitokoto_text">"人生最大的遗憾,就是在最无能为力的时候遇到一个想要保护一生的人."</a></span><font color="pink">欢迎访问：<a href="https://al.forever520.top" target="_blank" >ZQ的资源站</a></font></div>
+  
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+  
+    <div style=" height:30px;line-height:30px;font-size:14pt;font-weight:bold;text-align:center;color:pink"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/yh3.js"></script>
+  
+    <div align="center"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://count.getloli.com/get/@LYcc?theme=rule34"></div>
+  
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/Everlasting16108/MyPictures1/js/mytime2.js"></script>
+  
+    <script src="https://myhkw.cn/api/player/166996049082" id="myhk" key="166996049082" m="1"></script>
+  
+
+
+  </div>
+</body>
+</html>
